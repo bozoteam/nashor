@@ -1,34 +1,27 @@
-import {
-  // GoogleAuthProvider,
-  signOut,
-  // signInWithPopup,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  User,
-  updateProfile,
-  sendEmailVerification,
-  // updateProfile,
-} from "firebase/auth";
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import auth from "./firebase/firebase";
 import axiosInstance from "../utils/axios";
+import { AxiosResponse } from "axios";
 
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
+interface AccessTokenObject {
+  access_token: string;
+}
+
+interface User {
+  id: number;
+  name: string;
+  username: string;
+}
+
 interface AuthContextType {
-  authUser: User | null;
-  signOutFromWebsite: () => JSX.Element;
-  signUpEmailPwd: (
-    email: string,
-    password: string,
-    displayName: string
-  ) => void;
-  signInEmailPwd: (email: string, password: string) => void;
-  // signInGoogle: () => void;
+  authUser: User | null; // Replace 'any' with your user type
+  signOut: () => JSX.Element;
+  signUpUsernamePwd: (username: string, password: string, name: string) => void;
+  signInUsernamePwd: (username: string, password: string) => void;
   authLoading: boolean;
 }
 
@@ -36,88 +29,62 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
-// const provider = new GoogleAuthProvider();
-
 export const AuthContext = createContext<AuthContextType>({
   authUser: null,
-  signOutFromWebsite: () => <Navigate to="/" />,
-  signUpEmailPwd: () => {},
-  signInEmailPwd: () => {},
-  // signInGoogle: () => {},
+  signOut: () => <Navigate to="/" />,
+  signUpUsernamePwd: () => {},
+  signInUsernamePwd: () => {},
   authLoading: true,
 });
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [authLoading, setAuthLoading] = useState<boolean>(true);
-  const [idToken, setIdToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const listen = onAuthStateChanged(auth, (user) => {
-      setAuthUser(user);
-      if (user)
-        user?.getIdToken().then((token) => {
-          setIdToken(token);
-        });
-      else setIdToken(null);
-
+    if (localStorage.getItem("access_token") && !authUser) {
       setAuthLoading(false);
-    });
-
-    return () => {
-      listen();
-    };
+      axiosInstance
+        .get("/users/self", { withCredentials: true }) // implement endpoint for self user instead of /user/:username
+        .then((response: AxiosResponse<User>) => {
+          setAuthUser(response.data);
+          setAuthLoading(false);
+        });
+    }
   }, []);
 
-  // Sempre que idToken mudar, atualiza o cabeçalho Authorization
-  useEffect(() => {
-    if (idToken) {
-      axiosInstance.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${idToken}`;
-    } else {
-      delete axiosInstance.defaults.headers.common["Authorization"];
+  const signInUsernamePwd = async (username: string, password: string) => {
+    // Replace with actual sign-in logic
+    console.log(username, password);
+    try {
+      axiosInstance
+        .post("/auth", { username, password }, { withCredentials: true })
+        .then((response: AxiosResponse<AccessTokenObject>) => {
+          console.log(response);
+          localStorage.setItem("access_token", response.data.access_token); // store token in local storage, axios interceptor will add it to header
+          return axiosInstance.get(`/users/${username}`); // TODO: implement endpoint for self user instead of /user/:username
+        })
+        .then((response: AxiosResponse<User>) => {
+          console.log(response);
+          setAuthUser(response.data);
+        });
+    } catch (error) {
+      console.error("Sign in error:", error);
     }
-  }, [idToken]);
-
-  // const signInGoogle = async () => {
-  //   signInWithPopup(auth, provider).catch((error) => {
-  //     alert(error.message);
-  //   });
-  // };
-
-  const signInEmailPwd = async (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password).catch((error) => {
-      alert(error.message);
-    });
   };
 
-  const signUpEmailPwd = (
-    email: string,
+  const signUpUsernamePwd = (
+    username: string,
     password: string,
     displayName: string
   ) => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        sendEmailVerification(userCredential.user);
-        updateProfile(userCredential.user, {
-          displayName: displayName,
-        });
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    // Replace with actual sign-up logic
+    alert("Sign up logic not implemented");
   };
 
-  const signOutFromWebsite = () => {
-    signOut(auth)
-      .then(() => {
-        console.warn("signed out");
-        setAuthUser(null);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  const signOut = () => {
+    setAuthUser(null);
+    localStorage.removeItem("access_token");
     return <Navigate to="/" />;
   };
 
@@ -125,10 +92,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         authUser,
-        signOutFromWebsite,
-        signUpEmailPwd,
-        signInEmailPwd,
-        // signInGoogle,
+        signOut,
+        signUpUsernamePwd,
+        signInUsernamePwd,
         authLoading,
       }}
     >
