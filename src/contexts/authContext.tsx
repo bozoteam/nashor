@@ -45,7 +45,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     if (localStorage.getItem("access_token") && !authUser) {
       setAuthLoading(false);
       axiosInstance
-        .get("/users/self", { withCredentials: true }) // implement endpoint for self user instead of /user/:username
+        .get("/auth/me", { withCredentials: true }) // implement endpoint for self user instead of /user/:username
         .then((response: AxiosResponse<User>) => {
           setAuthUser(response.data);
           setAuthLoading(false);
@@ -55,17 +55,14 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signInUsernamePwd = async (username: string, password: string) => {
     // Replace with actual sign-in logic
-    console.log(username, password);
     try {
       axiosInstance
         .post("/auth", { username, password }, { withCredentials: true })
         .then((response: AxiosResponse<AccessTokenObject>) => {
-          console.log(response);
           localStorage.setItem("access_token", response.data.access_token); // store token in local storage, axios interceptor will add it to header
-          return axiosInstance.get(`/users/${username}`); // TODO: implement endpoint for self user instead of /user/:username
+          return axiosInstance.get(`/auth/me`);
         })
         .then((response: AxiosResponse<User>) => {
-          console.log(response);
           setAuthUser(response.data);
         });
     } catch (error) {
@@ -76,10 +73,31 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
   const signUpUsernamePwd = (
     username: string,
     password: string,
-    displayName: string
+    name: string
   ) => {
     // Replace with actual sign-up logic
-    alert("Sign up logic not implemented");
+    try {
+      axiosInstance
+        .post("/users", { username, password, name })
+        .then((response: AxiosResponse<{ message: string }>) => {
+          if (response.status === 201)
+            return axiosInstance.post(
+              "/auth",
+              { username, password },
+              { withCredentials: true }
+            );
+          else throw new Error(response.data.message);
+        })
+        .then((response: AxiosResponse<AccessTokenObject>) => {
+          localStorage.setItem("access_token", response.data.access_token); // store token in local storage, axios interceptor will add it to header
+          return axiosInstance.get(`/auth/me`);
+        })
+        .then((response: AxiosResponse<User>) => {
+          setAuthUser(response.data);
+        });
+    } catch (error) {
+      console.error("Sign up error:", error);
+    }
   };
 
   const signOut = () => {
