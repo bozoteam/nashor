@@ -9,17 +9,16 @@ type SignInFormProps = {
 };
 
 const SignInForm: React.FC<SignInFormProps> = ({ open, onClose }) => {
-  const { signInEmailPwd } = useAuth();
+  const { signInUsernamePwd } = useAuth();
   const [formState, setFormState] = React.useState({
-    email: "",
+    username: "",
     password: "",
   });
 
   function handleSubmit() {
-    signInEmailPwd(formState.email, formState.password);
+    signInUsernamePwd(formState.username, formState.password);
     onClose();
   }
-
   return (
     <CustomDialog
       open={open}
@@ -27,7 +26,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ open, onClose }) => {
       title="Sign In"
       onConfirm={handleSubmit}
       confirmText="Sign In"
-      confirmEnabled={formState.email !== "" && formState.password !== ""}
+      confirmEnabled={formState.username !== "" && formState.password !== ""}
     >
       <Box
         component="form"
@@ -42,16 +41,16 @@ const SignInForm: React.FC<SignInFormProps> = ({ open, onClose }) => {
       >
         <TextField
           required
-          id="email"
-          label="Email"
-          type="email"
+          id="username"
+          label="Username"
+          type="text"
           variant="outlined"
-          autoComplete="email"
-          value={formState.email}
+          autoComplete="username"
+          value={formState.username}
           onChange={(e) =>
             setFormState({
               ...formState,
-              email: e.target.value,
+              username: e.target.value,
             })
           }
         />

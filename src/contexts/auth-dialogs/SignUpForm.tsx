@@ -9,16 +9,16 @@ type SignUpFormProps = {
 };
 
 const SignUpForm: React.FC<SignUpFormProps> = ({ open, onClose }) => {
-  const { signUpEmailPwd } = useAuth();
+  const { signUpUsernamePwd } = useAuth();
   const [formState, setFormState] = React.useState({
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
-    displayName: "",
+    name: "",
   });
 
   function handleSubmit() {
-    signUpEmailPwd(formState.email, formState.password, formState.displayName);
+    signUpUsernamePwd(formState.username, formState.password, formState.name);
     onClose();
   }
 
@@ -30,11 +30,10 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ open, onClose }) => {
       onConfirm={handleSubmit}
       confirmText="Sign Up"
       confirmEnabled={
-        formState.email !== "" &&
-        formState.password !== "" &&
-        formState.confirmPassword !== "" &&
-        formState.displayName !== "" &&
-        formState.password === formState.confirmPassword
+        formState.username.length > 0 &&
+        formState.password.length > 0 &&
+        formState.password === formState.confirmPassword &&
+        formState.name.length > 0
       }
     >
       <Box
@@ -50,16 +49,29 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ open, onClose }) => {
       >
         <TextField
           required
-          id="email"
-          label="Email"
-          type="email"
+          id="username"
+          label="Username"
           variant="outlined"
-          autoComplete="email"
-          value={formState.email}
+          autoComplete="username"
+          value={formState.username}
           onChange={(e) =>
             setFormState({
               ...formState,
-              email: e.target.value,
+              username: e.target.value,
+            })
+          }
+        />
+        <TextField
+          required
+          id="name"
+          label="Name"
+          variant="outlined"
+          autoComplete="name"
+          value={formState.name}
+          onChange={(e) =>
+            setFormState({
+              ...formState,
+              name: e.target.value,
             })
           }
         />
@@ -93,20 +105,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ open, onClose }) => {
             })
           }
           error={formState.password !== formState.confirmPassword}
-        />
-        <TextField
-          required
-          id="display-name"
-          label="Display Name"
-          variant="outlined"
-          autoComplete="display-name"
-          value={formState.displayName}
-          onChange={(e) =>
-            setFormState({
-              ...formState,
-              displayName: e.target.value,
-            })
-          }
         />
       </Box>
     </CustomDialog>

@@ -7,7 +7,7 @@ import { Button, Typography, Box } from "@mui/material";
 function UserSection() {
   const [openSignIn, setOpenSignIn] = React.useState(false);
   const [openSignUp, setOpenSignUp] = React.useState(false);
-  const { authUser, signOutFromWebsite } = useAuth();
+  const { authUser, signOut } = useAuth();
   console.log(authUser);
 
   return (
@@ -20,12 +20,8 @@ function UserSection() {
             alignItems: "center",
           }}
         >
-          <Typography>{authUser.displayName ?? authUser.email}</Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={signOutFromWebsite}
-          >
+          <Typography>{authUser.name}</Typography>
+          <Button variant="contained" color="primary" onClick={signOut}>
             Sign Out
           </Button>
         </Box>
