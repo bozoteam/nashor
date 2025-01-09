@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import axiosInstance from "../utils/axios";
+import axiosInstance from "../service/axios";
 import { AxiosResponse } from "axios";
 
 export const useAuth = () => {

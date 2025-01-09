@@ -1,13 +1,5 @@
 import { Button } from "@mui/material";
 import React from "react";
-import axiosInstance from "../../utils/axios";
-
-// fetch to localhost:3001/api/test using axios
-function test() {
-  axiosInstance.get("/api/test").then((res) => {
-    console.log(res.data);
-  });
-}
 
 const Home: React.FC = () => {
   return (
@@ -19,7 +11,6 @@ const Home: React.FC = () => {
         color="primary"
         onClick={() => {
           console.log("test");
-          test();
         }}
       >
         test
