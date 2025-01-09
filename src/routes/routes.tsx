@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageNotFound from "./PageNotFound";
 import Home from "../pages/home/Home";
 import Profile from "../pages/profile/Profile";
+import Chat from "../pages/chat/ChatApp";
 
 const About = () => <h1>About</h1>;
 
@@ -11,6 +12,7 @@ export default function AppRoutes() {
       <Routes>
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/about" element={<About />} />
         <Route path="*" element={<PageNotFound />} />
