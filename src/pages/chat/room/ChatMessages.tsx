@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useRef } from "react";
-import { ChatMessage } from "./ChatApp";
+import { ChatMessage } from "../types";
 import { Avatar, Box, TextField, Typography } from "@mui/material";
 
 interface ChatMessagesProps {

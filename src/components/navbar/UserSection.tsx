@@ -8,7 +8,6 @@ function UserSection() {
   const [openSignIn, setOpenSignIn] = React.useState(false);
   const [openSignUp, setOpenSignUp] = React.useState(false);
   const { authUser, signOut } = useAuth();
-  console.log(authUser);
 
   return (
     <Box>
