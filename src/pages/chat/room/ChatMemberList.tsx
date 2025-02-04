@@ -1,6 +1,6 @@
 import { Avatar, Box, Divider, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
-import { ChatUser } from "./ChatApp";
+import { ChatUser } from "../types";
 
 interface ChatMemberListProps {
   users: ChatUser[];
