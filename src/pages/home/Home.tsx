@@ -1,22 +1,8 @@
-import { Button } from "@mui/material";
 import React from "react";
+import NerdboardBox from "../../components/NerdboardBox";
 
 const Home: React.FC = () => {
-  return (
-    <div>
-      <h1>Welcome to NerdBoard</h1>
-      <p>This is the home page of NerdBoard.</p>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => {
-          console.log("test");
-        }}
-      >
-        test
-      </Button>
-    </div>
-  );
+  return <NerdboardBox>home</NerdboardBox>;
 };
 
 export default Home;

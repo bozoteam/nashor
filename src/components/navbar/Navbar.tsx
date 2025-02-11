@@ -1,13 +1,16 @@
 import React from "react";
 import { AppBar, Toolbar, Typography } from "@mui/material";
 import UserSection from "./UserSection";
+import { Link } from "react-router-dom";
 
 const Navbar: React.FC = () => {
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          NerdBoard
+          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+            NerdBoard
+          </Link>
         </Typography>
         <UserSection />
       </Toolbar>

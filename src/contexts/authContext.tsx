@@ -45,7 +45,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     if (localStorage.getItem("access_token") && !authUser) {
       setAuthLoading(false);
       axiosInstance
-        .get("/auth/me", { withCredentials: true }) // implement endpoint for self user instead of /user/:username
+        .get("/auth/me", { withCredentials: true })
         .then((response: AxiosResponse<User>) => {
           setAuthUser(response.data);
           setAuthLoading(false);
