@@ -1,44 +1,49 @@
-import { useEffect } from "react";
-import { useAppDispatch } from "../../store/hooks";
-import { fetchChatRooms } from "./store";
-import { Paper } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import { useAuth } from "../../contexts/authContext";
 import ChatRoomsTable from "./ChatRoomsTable";
-
-export type ChatMessage = {
-  message: string;
-  createdAt: string;
-  user: ChatUser;
-};
-
-export type ChatUser = {
-  userId: string;
-  username: string;
-};
+import CreateRoomDialog from "./CreateRoomDialog";
+import { useNavigate } from "react-router-dom";
+import useChatStore from "../../store/useChatStore";
+import NerdboardBox from "../../components/NerdboardBox";
 
 function ChatApp() {
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const { authUser } = useAuth();
-  const dispatch = useAppDispatch();
+  const { fetchChatRooms, createChatRoom } = useChatStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (authUser) dispatch(fetchChatRooms());
+    if (authUser) fetchChatRooms();
   }, [authUser]);
 
+  async function onCreateRoom(roomName: string) {
+    console.log("Creating room", roomName);
+    const result = await createChatRoom(roomName);
+    if (result) {
+      navigate(`/chat/${result.id}`);
+    }
+  }
+
   return (
-    <div className="p-4 pt-8 md:p-8 z-1 flex justify-center flex-grow">
-      <Paper
-        className="flex flex-col md:flex-row"
-        sx={{
-          display: "flex",
-          flexGrow: 1,
-          maxWidth: "1000px",
-          width: "100%",
-          overflow: "hidden",
-        }}
-      >
+    <>
+      <NerdboardBox>
+        <Box className="flex justify-between items-center m-4">
+          <Typography variant="h5" gutterBottom>
+            Chat Rooms
+          </Typography>
+          <Button variant="contained" onClick={() => setCreateDialogOpen(true)}>
+            Create
+          </Button>
+        </Box>
         <ChatRoomsTable />
-      </Paper>
-    </div>
+      </NerdboardBox>
+      <CreateRoomDialog
+        open={createDialogOpen}
+        onClose={() => setCreateDialogOpen(false)}
+        onCreate={onCreateRoom}
+      />
+    </>
   );
 }
 

@@ -8,11 +8,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectChatRooms } from "./store/selectors";
+import useChatStore from "../../store/useChatStore";
 
 function ChatRoomsTable() {
-  const chatRooms = useSelector(selectChatRooms);
+  const { chatRooms } = useChatStore();
   const navigate = useNavigate();
 
   return (

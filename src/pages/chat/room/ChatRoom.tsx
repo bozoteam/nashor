@@ -25,6 +25,7 @@ function ChatRoom() {
   useEffect(() => {
     if (!authUser) return;
     // Connect to the chat room
+    // get room -> connect to web socket
   }, [authUser]);
 
   return (
