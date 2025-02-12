@@ -33,7 +33,7 @@ function UserSection() {
         >
           <Button
             variant="contained"
-            color="info"
+            color="secondary"
             onClick={() => setOpenSignIn(true)}
           >
             Sign In
