@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, Paper } from "@mui/material";
 
 function NerdboardBox({ children }: { children: React.ReactNode }) {

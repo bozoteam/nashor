@@ -1,36 +1,37 @@
 import React from "react";
 import { TextField, Box } from "@mui/material";
 import CustomDialog from "./Dialog";
-import { useAuth } from "../authContext";
+import { useAuth } from "../../service/useAuth";
+import { useAuthDialogStore } from "../../store/useAuthDialogStore";
 
-type SignUpFormProps = {
-  open: boolean;
-  onClose: () => void;
-};
-
-const SignUpForm: React.FC<SignUpFormProps> = ({ open, onClose }) => {
-  const { signUpUsernamePwd } = useAuth();
+const SignUpForm = () => {
+  const { isSignUpOpen, closeDialogs } = useAuthDialogStore();
+  const { signUp } = useAuth();
   const [formState, setFormState] = React.useState({
-    username: "",
+    email: "",
     password: "",
     confirmPassword: "",
     name: "",
   });
 
   function handleSubmit() {
-    signUpUsernamePwd(formState.username, formState.password, formState.name);
-    onClose();
+    signUp.mutate({
+      email: formState.email,
+      password: formState.password,
+      name: formState.name,
+    });
+    closeDialogs();
   }
 
   return (
     <CustomDialog
-      open={open}
-      onClose={onClose}
+      open={isSignUpOpen}
+      onClose={closeDialogs}
       title="Sign Up"
       onConfirm={handleSubmit}
       confirmText="Sign Up"
       confirmEnabled={
-        formState.username.length > 0 &&
+        formState.email.length > 0 &&
         formState.password.length > 0 &&
         formState.password === formState.confirmPassword &&
         formState.name.length > 0
@@ -49,15 +50,15 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ open, onClose }) => {
       >
         <TextField
           required
-          id="username"
-          label="Username"
+          id="email"
+          label="Email"
           variant="outlined"
-          autoComplete="username"
-          value={formState.username}
+          autoComplete="email"
+          value={formState.email}
           onChange={(e) =>
             setFormState({
               ...formState,
-              username: e.target.value,
+              email: e.target.value,
             })
           }
         />

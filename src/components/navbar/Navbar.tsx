@@ -8,7 +8,11 @@ const Navbar: React.FC = () => {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+          <Link
+            to="/"
+            style={{ fontWeight: "500", textDecoration: "none" }}
+            id="nav-logo"
+          >
             NerdBoard
           </Link>
         </Typography>
