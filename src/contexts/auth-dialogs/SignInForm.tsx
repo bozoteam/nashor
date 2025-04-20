@@ -1,32 +1,33 @@
 import React from "react";
 import { TextField, Box } from "@mui/material";
 import CustomDialog from "./Dialog";
-import { useAuth } from "../authContext";
+import { useAuth } from "../../service/useAuth";
+import { useAuthDialogStore } from "../../store/useAuthDialogStore";
 
-type SignInFormProps = {
-  open: boolean;
-  onClose: () => void;
-};
-
-const SignInForm: React.FC<SignInFormProps> = ({ open, onClose }) => {
-  const { signInUsernamePwd } = useAuth();
+const SignInForm = () => {
+  const { isSignInOpen, closeDialogs } = useAuthDialogStore();
+  const { signIn } = useAuth();
   const [formState, setFormState] = React.useState({
-    username: "",
+    email: "",
     password: "",
   });
 
   function handleSubmit() {
-    signInUsernamePwd(formState.username, formState.password);
-    onClose();
+    signIn.mutate({
+      email: formState.email,
+      password: formState.password,
+    });
+    closeDialogs();
   }
+
   return (
     <CustomDialog
-      open={open}
-      onClose={onClose}
+      open={isSignInOpen}
+      onClose={closeDialogs}
       title="Sign In"
       onConfirm={handleSubmit}
       confirmText="Sign In"
-      confirmEnabled={formState.username !== "" && formState.password !== ""}
+      confirmEnabled={formState.email !== "" && formState.password !== ""}
     >
       <Box
         component="form"
@@ -42,15 +43,15 @@ const SignInForm: React.FC<SignInFormProps> = ({ open, onClose }) => {
         <TextField
           required
           id="username"
-          label="Username"
+          label="Email"
           type="text"
           variant="outlined"
           autoComplete="username"
-          value={formState.username}
+          value={formState.email}
           onChange={(e) =>
             setFormState({
               ...formState,
-              username: e.target.value,
+              email: e.target.value,
             })
           }
         />

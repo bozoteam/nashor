@@ -1,14 +1,10 @@
-import React from "react";
-import SignInForm from "../../contexts/auth-dialogs/SignInForm";
-import SignUpForm from "../../contexts/auth-dialogs/SignUpForm";
-import { useAuth } from "../../contexts/authContext";
 import { Button, Typography, Box } from "@mui/material";
+import { useAuth } from "../../service/useAuth";
+import { useAuthDialogStore } from "../../store/useAuthDialogStore";
 
 function UserSection() {
-  const [openSignIn, setOpenSignIn] = React.useState(false);
-  const [openSignUp, setOpenSignUp] = React.useState(false);
   const { authUser, signOut } = useAuth();
-
+  const { openSignIn, openSignUp } = useAuthDialogStore();
   return (
     <Box>
       {authUser ? (
@@ -19,36 +15,45 @@ function UserSection() {
             alignItems: "center",
           }}
         >
-          <Typography>{authUser.name}</Typography>
-          <Button variant="contained" color="primary" onClick={signOut}>
-            Sign Out
+          <Typography data-testid="display-name">
+            {authUser?.name ?? authUser?.username}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={signOut}
+            data-testid="logout-button"
+          >
+            Sair
           </Button>
         </Box>
       ) : (
         <Box
           sx={{
             display: "flex",
-            gap: 2,
+            gap: 3,
           }}
         >
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => setOpenSignIn(true)}
+          <Typography
+            data-testid="login-button"
+            onClick={openSignIn}
+            className="flex flex-col justify-center items-center cursor-pointer"
+            sx={{
+              fontWeight: 500,
+            }}
           >
-            Sign In
-          </Button>
+            Fazer Login
+          </Typography>
           <Button
+            data-testid="signup-button"
             variant="contained"
-            color="secondary"
-            onClick={() => setOpenSignUp(true)}
+            color="primary"
+            onClick={openSignUp}
           >
-            Sign Up
+            Registrar
           </Button>
         </Box>
       )}
-      <SignUpForm open={openSignUp} onClose={() => setOpenSignUp(false)} />
-      <SignInForm open={openSignIn} onClose={() => setOpenSignIn(false)} />
     </Box>
   );
 }
