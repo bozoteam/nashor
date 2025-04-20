@@ -1,5 +1,6 @@
-// lib/queryClient.ts
 import { QueryClient } from "@tanstack/react-query";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -9,5 +10,18 @@ export const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       retry: false,
     },
+  },
+});
+
+const persister = createSyncStoragePersister({
+  storage: window.localStorage,
+});
+
+// 💡 Only persist the 'authUser' query
+persistQueryClient({
+  queryClient,
+  persister,
+  dehydrateOptions: {
+    shouldDehydrateQuery: (query) => query.queryKey[0] === "authUser", // only persist 'user' query
   },
 });
