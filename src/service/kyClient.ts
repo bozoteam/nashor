@@ -11,7 +11,6 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 // Ky doesn't support `timeout` in the same way, but you can use AbortController (we'll skip it for now unless you need it)
 
 export const api = ky.create({
-  credentials: "include",
   prefixUrl: baseUrl,
   headers: {
     "Content-Type": "application/json",

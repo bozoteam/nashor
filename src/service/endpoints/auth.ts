@@ -7,7 +7,9 @@ export const authenticateUser = async (
   email: string,
   password: string
 ): Promise<AuthenticateUserResponse> => {
-  return api.post("api/v1/auth", { json: { email, password } }).json();
+  return api
+    .post("api/v1/auth", { json: { email, password }, credentials: "include" })
+    .json();
 };
 
 export const registerUser = async (
@@ -19,5 +21,5 @@ export const registerUser = async (
 };
 
 export const logoutUser = async (): Promise<KyResponse<void>> => {
-  return api.post("api/v1/auth/logout");
+  return api.post("api/v1/auth/logout", { credentials: "include" });
 };
