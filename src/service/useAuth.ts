@@ -13,8 +13,9 @@ export const useAuth = () => {
     queryKey: ["authUser"],
     queryFn: fetchUser,
     retry: false,
-    refetchOnMount: false,
-    // enabled: !!localStorage.getItem("access_token"),
+    refetchOnMount: true,
+    staleTime: 0, // 0 means always refetch when component mounts
+    enabled: !!localStorage.getItem("access_token"),
   });
 
   // Sign in
