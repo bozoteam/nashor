@@ -5,8 +5,8 @@ import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persist
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      //   staleTime: 5 * 60 * 1000, // 5 mins
-      staleTime: Infinity,
+      staleTime: 5 * 60 * 1000, // 5 mins
+      // staleTime: Infinity,
       refetchOnWindowFocus: false,
       retry: false,
     },
@@ -22,6 +22,6 @@ persistQueryClient({
   queryClient,
   persister,
   dehydrateOptions: {
-    shouldDehydrateQuery: (query) => query.queryKey[0] === "authUser", // only persist 'user' query
+    shouldDehydrateQuery: (query) => query.queryKey[0] === "authUser", // only persist 'authUser' query
   },
 });
