@@ -1,7 +1,8 @@
 export interface User {
   id: number;
   name: string;
-  username: string;
+  username?: string;
+  email?: string;
 }
 
 export interface EndpointUserResponse {
