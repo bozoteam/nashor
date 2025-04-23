@@ -120,27 +120,31 @@ const Home: React.FC = () => {
           />
           <FeatureBox
             data-testid="poker-box"
-            // image="src/assets/icons/poker-icon.png"
-            image="src/assets/icons/tic-tac-toe-icon.png"
+            image="src/assets/icons/poker-icon.png"
             title="Poker"
             subtitle="Jogue com amigos"
             redirect_uri="/poker"
           />
           <FeatureBox
             data-testid="domino-box"
-            // image="src/assets/icons/domino-icon.png"
-            image="src/assets/icons/tic-tac-toe-icon.png"
+            image="src/assets/icons/domino-icon.png"
             title="Dominó"
             subtitle="Jogue com amigos"
             redirect_uri="/domino"
           />
           <FeatureBox
             data-testid="6nimmt-box"
-            // image="src/assets/icons/6nimmt-icon.png"
-            image="src/assets/icons/tic-tac-toe-icon.png"
+            image="src/assets/icons/boi-icon.png"
             title="Jogo do boi"
             subtitle="Jogue com amigos"
             redirect_uri="/6nimmt"
+          />
+          <FeatureBox
+            data-testid="coup-box"
+            image="src/assets/icons/coup-icon.png"
+            title="Coup"
+            subtitle="Jogue com amigos"
+            redirect_uri="/coup"
           />
         </Box>
       </Box>
