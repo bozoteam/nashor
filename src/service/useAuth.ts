@@ -1,9 +1,9 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient } from "../service/queryClient";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchUser } from "../service/endpoints/user";
 import { authenticateUser, logoutUser, registerUser } from "./endpoints/auth";
 
 export const useAuth = () => {
+  const queryClient = useQueryClient();
   // Current authenticated user
   const {
     data: authUser,
@@ -11,10 +11,17 @@ export const useAuth = () => {
     isError,
   } = useQuery({
     queryKey: ["authUser"],
-    queryFn: fetchUser,
     refetchOnMount: true,
     staleTime: 0, // 0 means always refetch when component mounts
     enabled: !!localStorage.getItem("access_token"),
+    queryFn: async () => {
+      try {
+        return await fetchUser();
+      } catch (error) {
+        queryClient.setQueryData(["authUser"], null);
+        throw error;
+      }
+    },
   });
 
   // Sign in

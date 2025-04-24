@@ -18,6 +18,10 @@ const SignInForm = () => {
       password: formState.password,
     });
     closeDialogs();
+    setFormState({
+      email: "",
+      password: "",
+    });
   }
 
   return (

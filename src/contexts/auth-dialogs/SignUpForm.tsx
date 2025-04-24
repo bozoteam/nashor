@@ -21,6 +21,12 @@ const SignUpForm = () => {
       name: formState.name,
     });
     closeDialogs();
+    setFormState({
+      email: "",
+      password: "",
+      confirmPassword: "",
+      name: "",
+    });
   }
 
   return (

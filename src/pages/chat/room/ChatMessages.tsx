@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useRef, useState } from "react";
+import { FunctionComponent, useEffect, useRef } from "react";
 import { Avatar, Box, TextField, Tooltip, Typography } from "@mui/material";
 import { Message } from "../../../types/chat";
 
@@ -12,7 +12,6 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
   sendMessage,
 }) => {
   const messagesBoxRef = useRef<HTMLDivElement>(null);
-  const [cooldown, setCooldown] = useState(false);
 
   useEffect(() => {
     messagesBoxRef.current?.scrollTo({
@@ -20,18 +19,6 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
       behavior: "smooth",
     });
   }, [messages]);
-
-  const handleSendMessage = (message: string) => {
-    if (cooldown) return false;
-
-    sendMessage(message);
-    setCooldown(true);
-
-    setTimeout(() => {
-      setCooldown(false);
-    }, 1000);
-    return true;
-  };
 
   return (
     <Box
@@ -87,7 +74,7 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
                   <Tooltip
                     placement="top"
                     title={new Date(
-                      message.timestamp * 1000
+                      message.timestamp / 1000
                     ).toLocaleTimeString(undefined, {
                       day: "numeric",
                       month: "long",
@@ -96,7 +83,7 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
                     })}
                   >
                     <Typography fontSize={11}>
-                      {new Date(message.timestamp * 1000).toLocaleTimeString(
+                      {new Date(message.timestamp / 1000).toLocaleTimeString(
                         undefined,
                         {
                           hour: "2-digit",
@@ -138,7 +125,8 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
           if (e.key === "Enter") {
             const target = e.target as HTMLInputElement;
             if (target.value === "") return;
-            if (handleSendMessage(target.value)) target.value = "";
+            sendMessage(target.value);
+            target.value = "";
           }
         }}
       />

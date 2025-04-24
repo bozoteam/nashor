@@ -12,6 +12,7 @@ const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
 export const api = ky.create({
   prefixUrl: baseUrl,
+  retry: 0,
   headers: {
     "Content-Type": "application/json",
   },
