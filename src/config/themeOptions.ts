@@ -23,6 +23,33 @@ const theme = createTheme({
       disabled: "#A4B6C1",
     },
     divider: "#E3E8EF",
+    warning: {
+      main: "#D4883A",
+      light: "#F5D7A8",
+      dark: "#B37432",
+    },
+    error: {
+      main: "#FF5252",
+      light: "#FFEBEE",
+      dark: "#D32F2F",
+    },
+    success: {
+      main: "#4CAF50",
+      light: "#E8F5E9",
+      dark: "#388E3C",
+    },
+    info: {
+      main: "#2196F3",
+      light: "#E3F2FD",
+      dark: "#1976D2",
+    },
+    action: {
+      active: "#1F2D3D",
+      hover: "#F0F3F0",
+      selected: "#E3E8EF",
+      disabled: "#A4B6C1",
+      disabledBackground: "#E3E8EF",
+    },
   },
   typography: {
     fontFamily: "Inter, Segoe UI, sans-serif",
@@ -62,6 +89,16 @@ const theme = createTheme({
     "0 21px 23px rgba(0,0,0,0.48)",
   ],
   components: {
+    MuiPaper: {
+      defaultProps: {
+        elevation: 1,
+      },
+      styleOverrides: {
+        root: {
+          border: "1px solid #E3E8EF",
+        },
+      },
+    },
     MuiAppBar: {
       styleOverrides: {
         root: {

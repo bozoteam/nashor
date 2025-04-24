@@ -1,0 +1,62 @@
+import { Box, Paper, Typography } from "@mui/material";
+import { useState } from "react";
+import CreateRoomDialog from "./dialog/CreateRoomDialog";
+import { rooms } from "./mock";
+import NerdboardContainer from "../../components/NerdboardContainer";
+import NerdboardHeader from "../../components/NerdboardHeader";
+import T3RoomCard from "./T3RoomCard";
+
+const roomData = rooms;
+
+function T3Hub() {
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+  async function onCreate(name: string) {
+    console.log(name);
+    return Promise.resolve();
+  }
+
+  return (
+    <>
+      <NerdboardContainer>
+        <NerdboardHeader
+          title="Jogo da velha"
+          subtitle="Jogue jogo da velha com os amigos"
+          buttonTitle="Criar partida"
+          buttonOnClick={() => setCreateDialogOpen(true)}
+        />
+
+        {roomData.length > 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "16px",
+            }}
+          >
+            {rooms.map((room) => (
+              <T3RoomCard key={room.id} room={room} />
+            ))}
+          </Box>
+        ) : (
+          <Paper
+            sx={{
+              padding: "32px",
+            }}
+          >
+            <Typography variant="h2" textAlign="center">
+              Nenhuma sala criada ainda. Crie uma nova sala para jogar.
+            </Typography>
+          </Paper>
+        )}
+      </NerdboardContainer>
+      <CreateRoomDialog
+        onClose={() => setCreateDialogOpen(false)}
+        onCreate={onCreate}
+        open={createDialogOpen}
+      />
+    </>
+  );
+}
+
+export default T3Hub;
