@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { User } from "../../../../types/user";
 import { Message } from "../../../../types/chat";
+import { baseUrl } from "../../../../service/kyClient";
 
 interface ChatStore {
   socket: WebSocket | null;
@@ -34,7 +35,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       return;
     }
     const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const wsUrl = `${wsProtocol}://localhost:8080/api/v1/chat/rooms/${roomId}/ws?token=${encodeURIComponent(
+    const wsUrl = `${wsProtocol}://${baseUrl}/api/v1/chat/rooms/${roomId}/ws?token=${encodeURIComponent(
       token
     )}`;
     let didConnect = false;
