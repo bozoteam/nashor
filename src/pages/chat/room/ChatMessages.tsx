@@ -74,7 +74,7 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
                   <Tooltip
                     placement="top"
                     title={new Date(
-                      message.timestamp / 1000
+                      message.timestamp / 1000000
                     ).toLocaleTimeString(undefined, {
                       day: "numeric",
                       month: "long",
@@ -83,7 +83,7 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
                     })}
                   >
                     <Typography fontSize={11}>
-                      {new Date(message.timestamp / 1000).toLocaleTimeString(
+                      {new Date(message.timestamp / 1000000).toLocaleTimeString(
                         undefined,
                         {
                           hour: "2-digit",
