@@ -1,17 +1,17 @@
 import ky from "ky";
 
+export const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 type RefreshRespose = {
   access_token: string;
   token_type: "Bearer";
   expires_in: string;
 };
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL;
-
 // Ky doesn't support `timeout` in the same way, but you can use AbortController (we'll skip it for now unless you need it)
 
 export const api = ky.create({
-  prefixUrl: baseUrl,
+  prefixUrl: `${window.location.protocol}//${baseUrl}`,
   retry: 0,
   headers: {
     "Content-Type": "application/json",
@@ -32,10 +32,13 @@ export const api = ky.create({
           // attempt token refresh
           try {
             const refreshResponse = await ky
-              .post(`${baseUrl}/api/v1/auth/refresh`, {
-                credentials: "include", // send cookies
-                json: {},
-              })
+              .post(
+                `${window.location.protocol}//${baseUrl}/api/v1/auth/refresh`,
+                {
+                  credentials: "include", // send cookies
+                  json: {},
+                }
+              )
               .json<RefreshRespose>();
 
             const newToken = refreshResponse.access_token;

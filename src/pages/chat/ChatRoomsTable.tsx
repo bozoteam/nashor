@@ -20,7 +20,7 @@ function ChatRoomsTable() {
   const { data: chatRooms, isLoading } = useQuery({
     queryKey: ["chatRooms"],
     queryFn: fetchChatRooms,
-    refetchInterval: 2000, // Refetch every 10 seconds
+    refetchInterval: 2000, // Refetch every 2 seconds
   });
 
   const loading = authLoading || isLoading;

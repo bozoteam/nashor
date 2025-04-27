@@ -92,7 +92,7 @@ const Home: React.FC = () => {
       >
         <FeatureBox
           data-testid="chat-box"
-          image="src/assets/icons/chat-icon.png"
+          image="/icons/chat-icon.png"
           title="Chat"
           subtitle="Chat with friends"
           redirect_uri="/chat"
@@ -100,35 +100,35 @@ const Home: React.FC = () => {
         />
         <FeatureBox
           data-testid="tic-tac-toe-box"
-          image="src/assets/icons/tic-tac-toe-icon.png"
+          image="/icons/tic-tac-toe-icon.png"
           title="Jogo da velha"
           subtitle="Jogue com amigos"
           redirect_uri="/tic-tac-toe"
         />
         <FeatureBox
           data-testid="poker-box"
-          image="src/assets/icons/poker-icon.png"
+          image="/icons/poker-icon.png"
           title="Poker"
           subtitle="Jogue com amigos"
           redirect_uri="/poker"
         />
         <FeatureBox
           data-testid="domino-box"
-          image="src/assets/icons/domino-icon.png"
+          image="/icons/domino-icon.png"
           title="Dominó"
           subtitle="Jogue com amigos"
           redirect_uri="/domino"
         />
         <FeatureBox
           data-testid="6nimmt-box"
-          image="src/assets/icons/boi-icon.png"
+          image="/icons/boi-icon.png"
           title="Jogo do boi"
           subtitle="Jogue com amigos"
           redirect_uri="/6nimmt"
         />
         <FeatureBox
           data-testid="coup-box"
-          image="src/assets/icons/coup-icon.png"
+          image="/icons/coup-icon.png"
           title="Coup"
           subtitle="Jogue com amigos"
           redirect_uri="/coup"
