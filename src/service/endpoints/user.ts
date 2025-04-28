@@ -1,4 +1,4 @@
-import { User } from "../../types/user";
+import { User } from "@proto/user/user";
 import { api } from "../kyClient";
 
 // 🔐 Fetch current user

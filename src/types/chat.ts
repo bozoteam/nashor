@@ -1,21 +1,26 @@
+import { Room } from "@proto/chat/chat";
 import { User } from "./user";
 
-export type ChatRoom = {
-  id: string;
-  creatorId: string;
-  name: string;
-  users: User[];
-};
+export type ChatRoom = Room;
 
-export type FetchChatRoomsResponse = {
-  rooms: ChatRoom[];
+export type GroupedMessages = {
+  room_id: string;
+  user: User;
+  timestamp: number;
+  messages: {
+    content: string;
+    timestamp: number;
+  }[];
 };
-
-export type CreateChatRoomResponse = { room: ChatRoom };
 
 export type Message = {
   content: string;
   room_id: string;
   timestamp: number;
+  user: User;
+};
+
+export type UserJoinLeaveEvent = {
+  type: "user_join" | "user_leave";
   user: User;
 };

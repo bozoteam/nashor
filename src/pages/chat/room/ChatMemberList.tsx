@@ -55,6 +55,7 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
               <Avatar sx={{ width: 32, height: 32 }} alt={user.name} />
               <Typography
                 color={"primary"}
+                fontWeight={500}
                 sx={{
                   fontSize: "1rem",
                 }}

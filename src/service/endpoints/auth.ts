@@ -1,12 +1,12 @@
 import { KyResponse } from "ky";
-import { AuthenticateUserResponse } from "../../types/auth";
-import { EndpointUserResponse } from "../../types/user";
 import { api } from "../kyClient";
+import { GetUserResponse } from "@proto/user/user.ts";
+import { AuthenticateResponse, LogoutResponse } from "@proto/auth/auth.ts";
 
 export const authenticateUser = async (
   email: string,
   password: string
-): Promise<AuthenticateUserResponse> => {
+): Promise<AuthenticateResponse> => {
   return api
     .post("api/v1/auth", { json: { email, password }, credentials: "include" })
     .json();
@@ -16,10 +16,10 @@ export const registerUser = async (
   email: string,
   name: string,
   password: string
-): Promise<KyResponse<EndpointUserResponse>> => {
+): Promise<KyResponse<GetUserResponse>> => {
   return api.post("api/v1/user", { json: { email, password, name } });
 };
 
-export const logoutUser = async (): Promise<KyResponse<void>> => {
+export const logoutUser = async (): Promise<KyResponse<LogoutResponse>> => {
   return api.post("api/v1/auth/logout", { credentials: "include" });
 };

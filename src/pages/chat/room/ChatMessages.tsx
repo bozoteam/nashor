@@ -1,9 +1,11 @@
 import { FunctionComponent, useEffect, useRef } from "react";
-import { Avatar, Box, TextField, Tooltip, Typography } from "@mui/material";
-import { Message } from "../../../types/chat";
+import { Box, TextField } from "@mui/material";
+import { GroupedMessages, UserJoinLeaveEvent } from "../../../types/chat";
+import ChatMessage from "./ChatMessage";
+import ChatJoinLeaveEvent from "./ChatJoinLeaveEvent";
 
 interface ChatMessagesProps {
-  messages: Message[];
+  messages: (GroupedMessages | UserJoinLeaveEvent)[];
   sendMessage: (message: string) => void;
 }
 
@@ -46,59 +48,24 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
           ref={messagesBoxRef}
           data-testid="messages-box"
         >
-          {messages.map((message) => (
-            <Box
-              key={`${message.user.id}-${message.timestamp}`}
-              sx={{
-                display: "flex",
-                padding: "8px 10px",
-                gap: "10px",
-                alignItems: "center",
-                ":hover": {
-                  backgroundColor: "rgba(0, 0, 0, 0.03)",
-                },
-              }}
-            >
-              <Avatar sx={{ width: 32, height: 32 }} alt={message.user.name}>
-                {message.user.name.charAt(0).toUpperCase()}
-              </Avatar>
-              <Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                  }}
-                >
-                  <Typography fontWeight={700}>{message.user.name}</Typography>
-                  <Tooltip
-                    placement="top"
-                    title={new Date(
-                      message.timestamp / 1000000
-                    ).toLocaleTimeString(undefined, {
-                      day: "numeric",
-                      month: "long",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  >
-                    <Typography fontSize={11}>
-                      {new Date(message.timestamp / 1000000).toLocaleTimeString(
-                        undefined,
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        }
-                      )}
-                    </Typography>
-                  </Tooltip>
-                </Box>
-                <Typography sx={{ textWrap: "wrap" }}>
-                  {message.content}
-                </Typography>
-              </Box>
-            </Box>
-          ))}
+          {messages.map((message) => {
+            console.log(message);
+            if ("timestamp" in message) {
+              // Check if message is a regular message
+              return (
+                <ChatMessage
+                  key={`${message.user.id}-${message.timestamp}`}
+                  message={message}
+                />
+              );
+            }
+            return (
+              <ChatJoinLeaveEvent
+                key={`${message.user.id}-${message.type}`}
+                event={message as UserJoinLeaveEvent}
+              />
+            );
+          })}
         </Box>
       </Box>
       <TextField

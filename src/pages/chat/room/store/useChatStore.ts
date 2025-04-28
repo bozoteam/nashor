@@ -1,11 +1,15 @@
 import { create } from "zustand";
 import { User } from "../../../../types/user";
-import { Message } from "../../../../types/chat";
+import {
+  GroupedMessages,
+  Message,
+  UserJoinLeaveEvent,
+} from "../../../../types/chat";
 import { baseUrl } from "../../../../service/kyClient";
 
 interface ChatStore {
   socket: WebSocket | null;
-  messages: Message[];
+  messages: (GroupedMessages | UserJoinLeaveEvent)[];
   users: User[];
   isConnected: boolean;
   connectionError: boolean;
@@ -40,62 +44,60 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     )}`;
     let didConnect = false;
 
-    const socket = new WebSocket(wsUrl);
+    const attemptConnection = (retryCount = 0) => {
+      const socket = new WebSocket(wsUrl);
 
-    socket.onopen = () => {
-      console.log("WebSocket connected");
-      didConnect = true;
-      set({ isConnected: true });
-    };
+      socket.onopen = () => {
+        console.log("WebSocket connected");
+        didConnect = true;
+        set({ isConnected: true, connectionError: false, socket });
+      };
 
-    socket.onmessage = (event) => {
-      console.log(event);
-      try {
-        if (event.data === "PING") {
-          console.log("Received PING from server, sending PONG");
-          get().sendPong();
-          return;
+      socket.onmessage = (event) => {
+        console.log(event);
+        try {
+          if (event.data === "PING") {
+            console.log("Received PING from server, sending PONG");
+            get().sendPong();
+            return;
+          }
+          const data = JSON.parse(event.data);
+          console.log("Parsed data:", data);
+
+          if (data.users) {
+            get().setUsers(data.users);
+          } else if (data.content && data.user) {
+            get().addMessage(data);
+          }
+        } catch (err) {
+          console.warn("Non-JSON message:", event.data);
         }
-        const data = JSON.parse(event.data);
-        console.log("Parsed data:", data);
+      };
 
-        if (data.users) {
-          get().setUsers(data.users);
-        } else if (data.content && data.user) {
-          get().addMessage(data);
+      socket.onclose = () => {
+        console.log("WebSocket disconnected");
+        set({ isConnected: false, socket: null });
+        if (!didConnect && retryCount < 5) {
+          console.log(`Retrying connection... Attempt ${retryCount + 1}`);
+          setTimeout(() => attemptConnection(retryCount + 1), 2000);
         }
-      } catch (err) {
-        console.warn("Non-JSON message:", event.data);
-      }
+      };
+
+      socket.onerror = (err) => {
+        if (!didConnect) {
+          set({ connectionError: true });
+          console.error("WebSocket error:", err);
+        }
+      };
     };
 
-    socket.onclose = () => {
-      console.log("WebSocket disconnected");
-      set({ isConnected: false });
-    };
-
-    socket.onerror = (err) => {
-      if (!didConnect) {
-        set({ connectionError: true });
-        alert("Conexão com a sala falhou. Verifique se a sala existe.");
-      }
-      console.error("WebSocket error:", err);
-    };
-
-    set({ socket });
+    attemptConnection();
   },
 
   disconnect: () => {
     get().socket?.close();
     set({ isConnected: false, socket: null });
   },
-
-  // sendMessage: (content: string) => {
-  //   const { socket } = get();
-  //   if (socket?.readyState === WebSocket.OPEN) {
-  //     socket.send(JSON.stringify({ type: "message", content }));
-  //   }
-  // },
 
   sendPing: () => {
     const { socket } = get();
@@ -111,8 +113,71 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
-  addMessage: (msg: Message) =>
-    set((state) => ({ messages: [...state.messages, msg] })),
+  addMessage: (msg: Message) => {
+    const { messages } = get();
+    const lastMessage = messages[messages.length - 1];
+    if (
+      lastMessage &&
+      !("type" in lastMessage) &&
+      "user" in lastMessage &&
+      lastMessage.user.id === msg.user.id
+    ) {
+      // check if last message is from the same user
+      lastMessage.messages.push({
+        content: msg.content,
+        timestamp: msg.timestamp,
+      });
+    } else {
+      set((state) => ({
+        messages: [
+          ...state.messages,
+          {
+            room_id: msg.room_id,
+            user: msg.user,
+            timestamp: msg.timestamp,
+            messages: [
+              {
+                content: msg.content,
+                timestamp: msg.timestamp,
+              },
+            ],
+          },
+        ],
+      }));
+    }
+    // set((state) => ({ messages: [...state.messages, msg] }))
+  },
 
-  setUsers: (users: User[]) => set({ users }),
+  setUsers: (users: User[]) => {
+    const oldUsers = get().users;
+    const newUsers = users.filter(
+      (newUser) => !oldUsers.some((oldUser) => oldUser.id === newUser.id)
+    );
+    if (newUsers.length === 1) {
+      set((state) => ({
+        messages: [
+          ...state.messages,
+          {
+            type: "user_join",
+            user: newUsers[0],
+          },
+        ],
+      }));
+    }
+    const leftUsers = oldUsers.filter(
+      (oldUser) => !users.some((newUser) => newUser.id === oldUser.id)
+    );
+    if (leftUsers.length === 1) {
+      set((state) => ({
+        messages: [
+          ...state.messages,
+          {
+            type: "user_leave",
+            user: leftUsers[0],
+          },
+        ],
+      }));
+    }
+    set({ users });
+  },
 }));
