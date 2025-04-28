@@ -3,6 +3,7 @@ import { Box, TextField } from "@mui/material";
 import { GroupedMessages, UserJoinLeaveEvent } from "../../../types/chat";
 import ChatMessage from "./ChatMessage";
 import ChatJoinLeaveEvent from "./ChatJoinLeaveEvent";
+import { useChatStore } from "./store/useChatStore";
 
 interface ChatMessagesProps {
   messages: (GroupedMessages | UserJoinLeaveEvent)[];
@@ -13,6 +14,7 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
   messages,
   sendMessage,
 }) => {
+  const { numberOfMessages } = useChatStore();
   const messagesBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -20,7 +22,7 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
       top: messagesBoxRef.current.scrollHeight,
       behavior: "smooth",
     });
-  }, [messages]);
+  }, [numberOfMessages]);
 
   return (
     <Box
@@ -72,9 +74,13 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
         variant="filled"
         placeholder="Mensagem"
         autoComplete="off"
+        multiline
+        maxRows={6}
+        minRows={1}
         fullWidth
         sx={{
           "& .MuiInputBase-root": {
+            padding: "0px",
             borderRadius: "0px",
             backgroundColor: "#F2F9F6",
           },
@@ -88,7 +94,15 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
           },
         }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === "Enter") {
+          // check if shift enter is pressed to add a new line
+          if (e.key === "Enter" && e.shiftKey) {
+            e.preventDefault();
+            const target = e.target as HTMLInputElement;
+            target.value += "\n";
+          }
+          // check if enter is pressed to send the message
+          else if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
             const target = e.target as HTMLInputElement;
             if (target.value === "") return;
             sendMessage(target.value);

@@ -12,6 +12,7 @@ function ConciseMessage({
   const [hovered, setHovered] = useState(false);
   return (
     <Typography
+      component={"div"}
       key={timestamp}
       sx={{
         width: "100%",
@@ -22,6 +23,9 @@ function ConciseMessage({
         ":hover": {
           backgroundColor: "rgba(0, 0, 0, 0.05)",
         },
+        overflowWrap: "break-word",
+        overflow: "hidden",
+        whiteSpace: "pre-wrap",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -75,9 +79,23 @@ const ChatMessage = ({ message: messages }: { message: GroupedMessages }) => {
           },
         }}
       >
-        <Avatar sx={{ width: "36px", height: "36px" }} alt={user.name}>
-          {user.name.charAt(0).toUpperCase()}
-        </Avatar>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+          }}
+        >
+          <Avatar
+            sx={{
+              width: "36px",
+              height: "36px",
+            }}
+            alt={user.name}
+          >
+            {user.name.charAt(0).toUpperCase()}
+          </Avatar>
+        </Box>
         <Box>
           <Box
             sx={{
@@ -111,7 +129,14 @@ const ChatMessage = ({ message: messages }: { message: GroupedMessages }) => {
               </Typography>
             </Tooltip>
           </Box>
-          <Typography sx={{ textWrap: "wrap" }}>
+          <Typography
+            sx={{
+              textWrap: "wrap",
+              overflowWrap: "break-word",
+              overflow: "hidden",
+              whiteSpace: "pre-wrap",
+            }}
+          >
             {firstMessage.content}
           </Typography>
         </Box>

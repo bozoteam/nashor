@@ -13,6 +13,7 @@ interface ChatStore {
   users: User[];
   isConnected: boolean;
   connectionError: boolean;
+  numberOfMessages: number;
 
   connect: (roomId: string) => void;
   disconnect: () => void;
@@ -30,9 +31,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   users: [],
   isConnected: false,
   connectionError: false,
+  numberOfMessages: 0,
 
   connect: (roomId: string) => {
-    set({ messages: [], users: [], isConnected: false });
+    set({ messages: [], users: [], isConnected: false, numberOfMessages: 0 });
     const token = localStorage.getItem("access_token") || "";
     if (!token) {
       console.error("No token found in localStorage");
@@ -44,53 +46,50 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     )}`;
     let didConnect = false;
 
-    const attemptConnection = (retryCount = 0) => {
-      const socket = new WebSocket(wsUrl);
+    const socket = new WebSocket(wsUrl);
 
-      socket.onopen = () => {
-        console.info("WebSocket connected");
-        didConnect = true;
-        set({ isConnected: true, connectionError: false, socket });
-      };
-
-      socket.onmessage = (event) => {
-        try {
-          if (event.data === "PING") {
-            console.debug("Received PING from server, sending PONG");
-            get().sendPong();
-            return;
-          }
-          const data = JSON.parse(event.data);
-          console.debug("Parsed data:", data);
-
-          if (data.users) {
-            get().setUsers(data.users);
-          } else if (data.content && data.user) {
-            get().addMessage(data);
-          }
-        } catch (err) {
-          console.warn("Non-JSON message:", event.data);
-        }
-      };
-
-      socket.onclose = () => {
-        console.warn("WebSocket disconnected");
-        set({ isConnected: false, socket: null });
-        if (!didConnect && retryCount < 3) {
-          console.info(`Retrying connection... Attempt ${retryCount + 1}`);
-          setTimeout(() => attemptConnection(retryCount + 1), 2000);
-        }
-      };
-
-      socket.onerror = (err) => {
-        if (!didConnect) {
-          set({ connectionError: true });
-          console.error("WebSocket error:", err);
-        }
-      };
+    socket.onopen = () => {
+      console.info("WebSocket connected");
+      didConnect = true;
+      set({ isConnected: true, connectionError: false, socket });
     };
 
-    attemptConnection();
+    socket.onmessage = (event) => {
+      try {
+        if (event.data === "PING") {
+          console.debug("Received PING from server, sending PONG");
+          get().sendPong();
+          return;
+        }
+        const data = JSON.parse(event.data);
+        console.debug("Parsed data:", data);
+        set({ numberOfMessages: get().numberOfMessages + 1 });
+
+        if (data.users) {
+          get().setUsers(data.users);
+        } else if (data.content && data.user) {
+          get().addMessage(data);
+        }
+      } catch (err) {
+        console.warn("Non-JSON message:", event.data);
+      }
+    };
+
+    socket.onclose = () => {
+      console.warn("WebSocket disconnected");
+      set({ isConnected: false, socket: null });
+      // if (!didConnect && retryCount < 3) {
+      //   console.info(`Retrying connection... Attempt ${retryCount + 1}`);
+      //   setTimeout(() => attemptConnection(retryCount + 1), 2000);
+      // }
+    };
+
+    socket.onerror = (err) => {
+      if (!didConnect) {
+        set({ connectionError: true });
+        console.error("WebSocket error:", err);
+      }
+    };
   },
 
   disconnect: () => {

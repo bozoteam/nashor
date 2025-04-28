@@ -5,6 +5,7 @@ const ChatJoinLeaveEvent = ({ event }: { event: UserJoinLeaveEvent }) => {
   return (
     <Box>
       <Typography
+        component={"div"}
         color="text.primary"
         sx={{
           display: "flex",
