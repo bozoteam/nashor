@@ -80,7 +80,7 @@ function ChatRoom() {
               display: { xs: "none", md: "block" },
             }}
           />
-          <Box sx={{ flexGrow: 1, display: "flex" }}>
+          <Box className="w-full md:w-3/4">
             <ChatMessages
               messages={messages}
               sendMessage={sendMessageMutation.mutate}

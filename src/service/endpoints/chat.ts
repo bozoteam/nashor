@@ -1,7 +1,4 @@
-import {
-  CreateRoomResponse,
-  ListRoomsResponse,
-} from "../../../proto/gen/chat/chat";
+import { CreateRoomResponse, ListRoomsResponse } from "@proto/chat/chat.ts";
 import { api } from "../kyClient";
 
 export const fetchChatRooms = async () => {
