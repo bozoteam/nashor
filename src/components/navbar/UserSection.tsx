@@ -16,7 +16,7 @@ function UserSection() {
           }}
         >
           <Typography data-testid="display-name">
-            {authUser?.name ?? authUser?.username}
+            {authUser?.name ?? authUser?.email}
           </Typography>
           <Button
             variant="contained"
