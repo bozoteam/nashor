@@ -27,7 +27,8 @@
           shellHook =
             let
               cat = "${pkgs.coreutils}/bin/cat";
-              sshCommand = "${pkgs.openssh}/bin/ssh -i ~/.ssh/proxyaccess.pem ec2-user@bozo.mateusbento.com";
+              sshHost = "ec2-user@bozo.mateusbento.com";
+              sshCommand = "${pkgs.openssh}/bin/ssh -i ~/.ssh/proxyaccess.pem ${sshHost}";
             in
             ''
               set -ex -o pipefail
