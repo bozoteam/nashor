@@ -25,7 +25,6 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
   const mutation = useMutation({
     mutationFn: async (roomName: string) => createChatRoom(roomName),
     onSuccess: (data) => {
-      console.log("Room created successfully:", data);
       if (data?.room) {
         navigate(`/chat/${data.room.id}`);
       }

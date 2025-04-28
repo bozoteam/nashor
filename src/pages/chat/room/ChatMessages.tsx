@@ -49,7 +49,6 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
           data-testid="messages-box"
         >
           {messages.map((message) => {
-            console.log(message);
             if ("timestamp" in message) {
               // Check if message is a regular message
               return (

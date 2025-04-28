@@ -48,21 +48,20 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       const socket = new WebSocket(wsUrl);
 
       socket.onopen = () => {
-        console.log("WebSocket connected");
+        console.info("WebSocket connected");
         didConnect = true;
         set({ isConnected: true, connectionError: false, socket });
       };
 
       socket.onmessage = (event) => {
-        console.log(event);
         try {
           if (event.data === "PING") {
-            console.log("Received PING from server, sending PONG");
+            console.debug("Received PING from server, sending PONG");
             get().sendPong();
             return;
           }
           const data = JSON.parse(event.data);
-          console.log("Parsed data:", data);
+          console.debug("Parsed data:", data);
 
           if (data.users) {
             get().setUsers(data.users);
@@ -75,10 +74,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       };
 
       socket.onclose = () => {
-        console.log("WebSocket disconnected");
+        console.warn("WebSocket disconnected");
         set({ isConnected: false, socket: null });
-        if (!didConnect && retryCount < 5) {
-          console.log(`Retrying connection... Attempt ${retryCount + 1}`);
+        if (!didConnect && retryCount < 3) {
+          console.info(`Retrying connection... Attempt ${retryCount + 1}`);
           setTimeout(() => attemptConnection(retryCount + 1), 2000);
         }
       };
