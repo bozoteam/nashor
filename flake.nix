@@ -21,9 +21,12 @@
         ship = pkgs.mkShell {
           packages = [
             pkgs.openssh
+            pkgs.coreutils
           ];
+
           shellHook =
             let
+              cat = "${pkgs.coreutils}/bin/cat";
               sshCommand = "${pkgs.openssh}/bin/ssh -i ~/.ssh/proxyaccess.pem ec2-user@bozo.mateusbento.com";
             in
             ''
@@ -32,7 +35,7 @@
 
               ${sshCommand} 'cd /bozo && docker-compose down nashor'
 
-              cat result-nashor | ${sshCommand} 'docker rmi nashor -f ; docker load'
+              ${cat} result-nashor | ${sshCommand} 'docker rmi nashor -f ; docker load'
 
               ${sshCommand} 'cd /bozo && docker-compose up --build -d'
 
@@ -48,10 +51,10 @@
           src = ./.;
           npmDepsHash = "sha256-fh2MgzZhPqitS1XzoTwLX1k7u9VwAe95TU5cEO1gbyU=";
           buildPhase = "npm run build";
-          # installPhase = ''
-          #   mkdir -p $out
-          #   cp -r dist $out/
-          # '';
+          installPhase = ''
+            mkdir -p $out
+            cp -r dist $out/
+          '';
         };
 
         # Docker image for Node.js app with nginx
@@ -90,9 +93,9 @@
             tag = "latest";
             contents = [
               pkgs.nginx
-              pkgs.vim
-              pkgs.bash
-              pkgs.coreutils
+              # pkgs.vim
+              # pkgs.bash
+              # pkgs.coreutils
               nashorApp
             ];
             config = {
