@@ -1,5 +1,6 @@
 import { Avatar, Box, Tooltip, Typography } from "@mui/material";
 import { useState } from "react";
+import { stringToColor } from "../../../service/utils";
 import { GroupedMessages } from "src/types/chat";
 
 function ConciseMessage({
@@ -88,8 +89,10 @@ const ChatMessage = ({ message: messages }: { message: GroupedMessages }) => {
         >
           <Avatar
             sx={{
+              marginTop: "6px",
               width: "36px",
               height: "36px",
+              backgroundColor: stringToColor(user.id),
             }}
             alt={user.name}
           >
@@ -104,7 +107,9 @@ const ChatMessage = ({ message: messages }: { message: GroupedMessages }) => {
               gap: "6px",
             }}
           >
-            <Typography fontWeight={700}>{user.name}</Typography>
+            <Typography color={stringToColor(user.id)} fontWeight={700}>
+              {user.name}
+            </Typography>
             <Tooltip
               placement="top"
               title={new Date(
