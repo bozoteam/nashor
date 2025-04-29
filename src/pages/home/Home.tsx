@@ -23,11 +23,7 @@ function FeatureBox({
       component={Link}
       to={redirect_uri}
       sx={{
-        width: {
-          xs: "100%",
-          sm: "unset",
-        },
-        padding: "20px",
+        padding: "16px",
         display: "flex",
         flexDirection: "column",
         gap: "8px",
@@ -84,10 +80,9 @@ const Home: React.FC = () => {
       />
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "row",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(195px, 1fr))",
           gap: 2,
-          flexWrap: "wrap",
         }}
       >
         <FeatureBox

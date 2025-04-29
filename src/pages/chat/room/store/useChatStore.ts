@@ -1,11 +1,11 @@
 import { create } from "zustand";
-import { User } from "../../../../types/user";
 import {
   GroupedMessages,
   Message,
   UserJoinLeaveEvent,
 } from "../../../../types/chat";
 import { baseUrl } from "../../../../service/kyClient";
+import { User } from "@proto/user/user";
 
 interface ChatStore {
   socket: WebSocket | null;
@@ -94,7 +94,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   disconnect: () => {
     get().socket?.close();
-    set({ isConnected: false, socket: null });
+    set({
+      isConnected: false,
+      socket: null,
+      connectionError: false,
+      messages: [],
+      users: [],
+      numberOfMessages: 0,
+    });
   },
 
   sendPing: () => {

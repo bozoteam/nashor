@@ -1,32 +1,38 @@
 import { Avatar, Box, Divider, Typography } from "@mui/material";
 import { FunctionComponent } from "react";
-import { User } from "../../../types/user";
+import { stringToColor } from "../../../service/utils";
+import { User } from "@proto/user/user";
 
 interface ChatMemberListProps {
   users: User[];
 }
 
 const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
+  console.log(users);
   return (
     <Box
       sx={{
-        padding: "16px",
+        padding: "16px 12px",
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
+        // gap: "8px",
       }}
     >
       <Typography
         variant={"h6"}
         color={"primary"}
         sx={{
+          marginLeft: "8px",
           fontSize: "1rem",
         }}
       >
-        {/* {roomLoading ? "Carregando..." : `${users ? users.length : 0} Online`} */}
         {users ? users.length : 0} Online
       </Typography>
-      <Divider />
+      <Divider
+        sx={{
+          margin: "8px",
+        }}
+      />
       <Box
         sx={{
           marginTop: "8px",
@@ -35,13 +41,6 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
           gap: "8px",
         }}
       >
-        {/* {roomLoading && (
-          <div
-            style={{ display: "flex", justifyContent: "center", marginTop: 8 }}
-          >
-            <CircularProgress size="30px" />
-          </div>
-        )} */}
         {users &&
           users.map((user) => (
             <Box
@@ -50,12 +49,26 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
                 display: "flex",
                 gap: "8px",
                 alignItems: "center",
+                padding: "4px 6px",
+                borderRadius: "6px",
+                ":hover": {
+                  backgroundColor: "rgba(0,0,0,0.05)",
+                },
               }}
             >
-              <Avatar sx={{ width: 32, height: 32 }} alt={user.name} />
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32,
+                  background: stringToColor(user.id),
+                }}
+                alt={user.name}
+              >
+                {user.name[0].toUpperCase()}
+              </Avatar>
               <Typography
-                color={"primary"}
-                fontWeight={500}
+                color={stringToColor(user.id)}
+                fontWeight={700}
                 sx={{
                   fontSize: "1rem",
                 }}

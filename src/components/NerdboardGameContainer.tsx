@@ -2,7 +2,15 @@ import { Box, Paper } from "@mui/material";
 
 import { ReactNode } from "react";
 
-const NerdboardGameContainer = ({ children }: { children: ReactNode }) => {
+const NerdboardGameContainer = ({
+  children,
+  userDisplay,
+  chatDisplay,
+}: {
+  children: ReactNode;
+  userDisplay?: ReactNode;
+  chatDisplay?: ReactNode;
+}) => {
   return (
     <Box
       sx={{
@@ -22,13 +30,20 @@ const NerdboardGameContainer = ({ children }: { children: ReactNode }) => {
       >
         <Box
           sx={{
-            width: { xs: "100%", sm: "70%" },
+            width: { xs: "100%", sm: "80%" },
             height: { xs: "500px", sm: "100%" },
           }}
         >
           <Paper
             sx={{
               minHeight: "100%",
+              padding: {
+                xs: "16px",
+                sm: "24px",
+              },
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
             }}
           >
             {children}
@@ -53,17 +68,24 @@ const NerdboardGameContainer = ({ children }: { children: ReactNode }) => {
             sx={{
               width: "100%",
               minHeight: "250px",
+              maxHeight: "400px",
+              padding: "12px 8px ",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            Users
+            {userDisplay}
           </Paper>
           <Paper
             sx={{
               width: "100%",
               minHeight: "350px",
+              padding: "12px 8px ",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            Chat
+            {chatDisplay}
           </Paper>
         </Box>
       </Box>
