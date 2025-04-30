@@ -1,5 +1,5 @@
 import React from "react";
-import { TextField, Box } from "@mui/material";
+import { TextField, Box, Alert } from "@mui/material";
 import CustomDialog from "./Dialog";
 import { useAuth } from "../../service/useAuth";
 import { useAuthDialogStore } from "../../store/useAuthDialogStore";
@@ -11,26 +11,35 @@ const SignInForm = () => {
     email: "",
     password: "",
   });
+  const [errorMessage, setErrorMessage] = React.useState("");
 
-  function handleSubmit() {
-    signIn.mutate({
-      email: formState.email,
-      password: formState.password,
-    });
-    closeDialogs();
-    setFormState({
-      email: "",
-      password: "",
-    });
+  async function handleSubmit() {
+    try {
+      await signIn.mutateAsync({
+        email: formState.email,
+        password: formState.password,
+      });
+      closeDialogs();
+      setFormState({
+        email: "",
+        password: "",
+      });
+      setErrorMessage("");
+    } catch (error) {
+      const serverError =
+        (error as any)?.response?.data?.message ||
+        "Failed to sign in. Please check your credentials and try again.";
+      setErrorMessage(serverError);
+    }
   }
 
   return (
     <CustomDialog
       open={isSignInOpen}
       onClose={closeDialogs}
-      title="Sign In"
+      title="Login"
       onConfirm={handleSubmit}
-      confirmText="Sign In"
+      confirmText="Login"
       confirmEnabled={formState.email !== "" && formState.password !== ""}
     >
       <Box
@@ -39,18 +48,24 @@ const SignInForm = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          "& .MuiTextField-root": { my: 1, width: "300px" },
+          gap: "16px",
+          "& > *": { width: "300px" },
         }}
         noValidate
         autoComplete="off"
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
       >
+        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
         <TextField
           required
-          id="username"
+          id="email"
           label="Email"
           type="text"
           variant="outlined"
-          autoComplete="username"
+          autoComplete="email"
           value={formState.email}
           onChange={(e) =>
             setFormState({
@@ -62,7 +77,7 @@ const SignInForm = () => {
         <TextField
           required
           id="password"
-          label="Password"
+          label="Senha"
           type="password"
           variant="outlined"
           autoComplete="current-password"
@@ -74,6 +89,7 @@ const SignInForm = () => {
             })
           }
         />
+        <button type="submit" style={{ display: "none" }} />
       </Box>
     </CustomDialog>
   );
