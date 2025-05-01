@@ -70,6 +70,7 @@ function ChatRoomsTable() {
             <TableRow
               // </TableBody>data-testid={`room-${row.name}`}
               key={row.id}
+              data-testid={`room-${row.name}`}
               sx={{
                 "&:last-child td, &:last-child th": { border: 0 },
                 cursor: "pointer",

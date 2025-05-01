@@ -43,7 +43,7 @@ const T3UserBoard = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          marginX: "6px",
+          margin: "0 6px 4px 6px",
         }}
       >
         <Typography
@@ -89,7 +89,7 @@ const T3UserBoard = () => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          marginX: "6px",
+          margin: "0 6px 4px 6px",
         }}
       >
         <Typography
