@@ -28,7 +28,7 @@ const SignInForm = () => {
     } catch (error) {
       const serverError =
         (error as any)?.response?.data?.message ||
-        "Failed to sign in. Please check your credentials and try again.";
+        "Falha ao entrar. Por favor, verifique suas credenciais e tente novamente.";
       setErrorMessage(serverError);
     }
   }
@@ -57,8 +57,13 @@ const SignInForm = () => {
           e.preventDefault();
           handleSubmit();
         }}
+        data-testid="login-form"
       >
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {errorMessage && (
+          <Alert severity="error" data-testid="error-message">
+            {errorMessage}
+          </Alert>
+        )}
         <TextField
           required
           id="email"
@@ -73,6 +78,11 @@ const SignInForm = () => {
               email: e.target.value,
             })
           }
+          slotProps={{
+            htmlInput: {
+              "data-testid": "email-field",
+            },
+          }}
         />
         <TextField
           required
@@ -88,6 +98,11 @@ const SignInForm = () => {
               password: e.target.value,
             })
           }
+          slotProps={{
+            htmlInput: {
+              "data-testid": "password-field",
+            },
+          }}
         />
         <button type="submit" style={{ display: "none" }} />
       </Box>

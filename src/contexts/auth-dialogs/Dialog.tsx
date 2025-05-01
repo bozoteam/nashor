@@ -47,6 +47,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
             onClick={onConfirm}
             disabled={!confirmEnabled}
             variant="contained"
+            data-testid="confirm-button"
           >
             {confirmText}
           </Button>

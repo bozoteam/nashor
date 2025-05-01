@@ -47,7 +47,7 @@ const SignUpForm = () => {
     } catch (error) {
       const serverError =
         (error as any)?.response?.data?.message ||
-        "Failed to sign up. Please try again.";
+        "Falha ao registrar. Por favor, tente novamente.";
       setErrorMessage(serverError);
     }
   }
