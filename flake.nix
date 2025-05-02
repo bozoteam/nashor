@@ -50,7 +50,7 @@
           pname = "nashor";
           version = "0.1.0";
           src = ./.;
-          npmDepsHash = "sha256-fh2MgzZhPqitS1XzoTwLX1k7u9VwAe95TU5cEO1gbyU=";
+          npmDepsHash = "sha256-f7graLapGUNLYPwYsMvWIjrTGZlMKbZy8dFBB5Nm0rc=";
           buildPhase = "npm run build";
           installPhase = ''
             mkdir -p $out
