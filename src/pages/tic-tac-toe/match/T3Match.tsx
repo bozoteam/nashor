@@ -21,7 +21,7 @@ const T3Match = () => {
           textAlign: "center",
         }}
       >
-        Mystic Forest
+        Mystic Forest (Example title)
       </Typography>
       <T3Board />
       <Typography

@@ -1,10 +1,13 @@
 import { Button, Typography, Box } from "@mui/material";
 import { useAuth } from "../../service/useAuth";
 import { useAuthDialogStore } from "../../store/useAuthDialogStore";
+import { useTranslation } from "react-i18next";
 
 function UserSection() {
   const { authUser, signOut } = useAuth();
   const { openSignIn, openSignUp } = useAuthDialogStore();
+  const { t } = useTranslation();
+
   return (
     <Box>
       {authUser ? (
@@ -24,7 +27,7 @@ function UserSection() {
             onClick={signOut}
             data-testid="logout-button"
           >
-            Sair
+            {t("userSection.logout")}
           </Button>
         </Box>
       ) : (
@@ -42,7 +45,7 @@ function UserSection() {
               fontWeight: 500,
             }}
           >
-            Fazer Login
+            {t("userSection.login")}
           </Typography>
           <Button
             data-testid="signup-button"
@@ -50,7 +53,7 @@ function UserSection() {
             color="primary"
             onClick={openSignUp}
           >
-            Registrar
+            {t("userSection.signup")}
           </Button>
         </Box>
       )}

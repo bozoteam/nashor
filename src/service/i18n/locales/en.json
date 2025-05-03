@@ -1,0 +1,108 @@
+{
+  "home": {
+    "header": {
+      "title": "Play with friends online",
+      "subtitle": "Enjoy a variety of classic games with friends and players worldwide"
+    },
+    "features": {
+      "chat": {
+        "title": "Chat",
+        "subtitle": "Chat with friends",
+        "button": "Join chat"
+      },
+      "ticTacToe": {
+        "title": "Tic Tac Toe",
+        "subtitle": "Play with friends"
+      },
+      "poker": {
+        "title": "Poker",
+        "subtitle": "Play with friends"
+      },
+      "domino": {
+        "title": "Domino",
+        "subtitle": "Play with friends"
+      },
+      "sixNimmt": {
+        "title": "6 Nimmt",
+        "subtitle": "Play with friends"
+      },
+      "coup": {
+        "title": "Coup",
+        "subtitle": "Play with friends"
+      }
+    }
+  },
+  "chatHub": {
+    "title": "Chat Rooms",
+    "createButton": "Create Room"
+  },
+  "chatRoomsTable": {
+    "headers": {
+      "id": "ID",
+      "name": "Name",
+      "members": "Members",
+      "createdBy": "Created By"
+    },
+    "messages": {
+      "unauthenticated": "You must be logged in to view chat rooms.",
+      "noRooms": "No chat rooms available."
+    }
+  },
+  "createRoomDialog": {
+    "title": "Create a New Room",
+    "roomNameLabel": "Room Name",
+    "cancelButton": "Cancel",
+    "createButton": "Create",
+    "creatingButton": "Creating..."
+  },
+  "chatJoinLeaveEvent": {
+    "userJoin": "joined",
+    "userLeave": "left",
+    "room": "the room"
+  },
+  "t3Hub": {
+    "header": {
+      "title": "Tic Tac Toe Hub",
+      "subtitle": "Join or create a room to play Tic Tac Toe",
+      "buttonTitle": "Create Room"
+    },
+    "noRoomsMessage": "No rooms available. Create one to get started!"
+  },
+  "t3RoomCard": {
+    "status": {
+      "aguardando": "Waiting",
+      "jogando": "Playing"
+    },
+    "createdBy": "Created by {{name}}",
+    "playersTooltip": "Number of players",
+    "spectatorsTooltip": "Number of spectators",
+    "joinButton": "Join"
+  },
+  "userSection": {
+    "logout": "Logout",
+    "login": "Login",
+    "signup": "Sign Up"
+  },
+  "signInForm": {
+    "title": "Sign In",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "confirmText": "Sign In",
+    "errorMessage": "Invalid email or password. Please try again."
+  },
+  "signUpForm": {
+    "title": "Sign Up",
+    "emailLabel": "Email",
+    "usernameLabel": "Username",
+    "usernameHelperText": "Username must contain only letters and numbers.",
+    "passwordLabel": "Password",
+    "confirmPasswordLabel": "Confirm Password",
+    "confirmText": "Sign Up",
+    "usernameError": "Invalid username. Please use only letters and numbers.",
+    "serverError": "An error occurred while signing up. Please try again."
+  },
+  "genericDialog": {
+    "cancelButton": "Cancel",
+    "confirmButton": "Confirm"
+  }
+}

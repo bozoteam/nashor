@@ -1,0 +1,97 @@
+{
+  "home": {
+    "header": {
+      "title": "Jogue com amigos online",
+      "subtitle": "Aproveite uma variedade de jogos clássicos com amigos e jogadores do mundo todo"
+    },
+    "features": {
+      "chat": {
+        "title": "Chat",
+        "subtitle": "Converse com amigos",
+        "button": "Entrar no chat"
+      },
+      "ticTacToe": {
+        "title": "Jogo da Velha",
+        "subtitle": "Jogue com amigos"
+      },
+      "poker": {
+        "title": "Poker",
+        "subtitle": "Jogue com amigos"
+      },
+      "domino": {
+        "title": "Dominó",
+        "subtitle": "Jogue com amigos"
+      },
+      "sixNimmt": {
+        "title": "Jogo do Boi",
+        "subtitle": "Jogue com amigos"
+      },
+      "coup": {
+        "title": "Coup",
+        "subtitle": "Jogue com amigos"
+      }
+    }
+  },
+  "chatHub": {
+    "title": "Salas de Chat",
+    "createButton": "Criar Sala"
+  },
+  "chatRoomsTable": {
+    "headers": {
+      "id": "ID",
+      "name": "Nome",
+      "members": "Membros",
+      "createdBy": "Criado Por"
+    },
+    "messages": {
+      "unauthenticated": "Você precisa estar logado para ver as salas de chat.",
+      "noRooms": "Nenhuma sala de chat disponível."
+    }
+  },
+  "createRoomDialog": {
+    "title": "Criar uma Nova Sala",
+    "roomNameLabel": "Nome da Sala",
+    "cancelButton": "Cancelar",
+    "createButton": "Criar",
+    "creatingButton": "Criando..."
+  },
+  "chatJoinLeaveEvent": {
+    "userJoin": "entrou",
+    "userLeave": "saiu",
+    "room": "da sala"
+  },
+  "t3Hub": {
+    "header": {
+      "title": "Hub do Jogo da Velha",
+      "subtitle": "Entre ou crie uma sala para jogar Jogo da Velha",
+      "buttonTitle": "Criar Sala"
+    },
+    "noRoomsMessage": "Nenhuma sala disponível. Crie uma para começar!"
+  },
+  "t3RoomCard": {
+    "status": {
+      "aguardando": "Aguardando",
+      "jogando": "Jogando"
+    },
+    "createdBy": "Criado por {{name}}",
+    "playersTooltip": "Número de jogadores",
+    "spectatorsTooltip": "Número de espectadores",
+    "joinButton": "Entrar"
+  },
+  "userSection": {
+    "logout": "Sair",
+    "login": "Entrar",
+    "signup": "Cadastrar"
+  },
+  "signInForm": {
+    "title": "Entrar",
+    "emailLabel": "Email",
+    "passwordLabel": "Senha",
+    "confirmText": "Entrar",
+    "errorMessage": "Email ou senha inválidos. Por favor, tente novamente."
+  },
+  "genericDialog": {
+    "cancelButton": "Cancelar",
+    "confirmButton": "Confirmar"
+  }
+}

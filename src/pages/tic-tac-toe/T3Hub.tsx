@@ -1,5 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import CreateRoomDialog from "./dialog/CreateRoomDialog";
 import { rooms } from "./mock";
 import NerdboardContainer from "../../components/NerdboardContainer";
@@ -10,6 +11,7 @@ const roomData = rooms;
 
 function T3Hub() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const { t } = useTranslation();
 
   async function onCreate(name: string) {
     console.log(name);
@@ -20,9 +22,9 @@ function T3Hub() {
     <>
       <NerdboardContainer>
         <NerdboardHeader
-          title="Jogo da velha"
-          subtitle="Jogue jogo da velha com os amigos"
-          buttonTitle="Criar partida"
+          title={t("t3Hub.header.title")}
+          subtitle={t("t3Hub.header.subtitle")}
+          buttonTitle={t("t3Hub.header.buttonTitle")}
           buttonOnClick={() => setCreateDialogOpen(true)}
         />
 
@@ -45,7 +47,7 @@ function T3Hub() {
             }}
           >
             <Typography variant="h2" textAlign="center">
-              Nenhuma sala criada ainda. Crie uma nova sala para jogar.
+              {t("t3Hub.noRoomsMessage")}
             </Typography>
           </Paper>
         )}
