@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Button,
   Dialog,
@@ -17,6 +18,7 @@ export type CreateRoomDialogProps = {
 function CreateRoomDialog({ open, onClose, onCreate }: CreateRoomDialogProps) {
   const [roomName, setRoomName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+  const { t } = useTranslation();
 
   const handleCreate = async () => {
     setIsCreating(true);
@@ -32,12 +34,12 @@ function CreateRoomDialog({ open, onClose, onCreate }: CreateRoomDialogProps) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Criar Sala</DialogTitle>
+      <DialogTitle>{t("createRoomDialog.title")}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
-          label="Nome da sala"
+          label={t("createRoomDialog.roomNameLabel")}
           type="text"
           fullWidth
           value={roomName}
@@ -51,7 +53,7 @@ function CreateRoomDialog({ open, onClose, onCreate }: CreateRoomDialogProps) {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancelar
+          {t("createRoomDialog.cancelButton")}
         </Button>
         <Button
           onClick={handleCreate}
@@ -59,7 +61,9 @@ function CreateRoomDialog({ open, onClose, onCreate }: CreateRoomDialogProps) {
           disabled={isCreating}
           data-testid="confirm-create-room"
         >
-          {isCreating ? "Criando..." : "Criar"}
+          {isCreating
+            ? t("createRoomDialog.creatingButton")
+            : t("createRoomDialog.createButton")}
         </Button>
       </DialogActions>
     </Dialog>

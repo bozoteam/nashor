@@ -10,6 +10,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createChatRoom } from "../../service/endpoints/chat";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export type CreateRoomDialogProps = {
   open: boolean;
@@ -21,6 +22,7 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
   const [roomName, setRoomName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const mutation = useMutation({
     mutationFn: async (roomName: string) => createChatRoom(roomName),
@@ -46,12 +48,12 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Criar Sala</DialogTitle>
+      <DialogTitle>{t("createRoomDialog.title")}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus
           margin="dense"
-          label="Nome da sala"
+          label={t("createRoomDialog.roomNameLabel")}
           type="text"
           fullWidth
           value={roomName}
@@ -65,7 +67,7 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">
-          Cancelar
+          {t("createRoomDialog.cancelButton")}
         </Button>
         <Button
           onClick={handleCreate}
@@ -73,7 +75,9 @@ function CreateRoomDialog({ open, onClose }: CreateRoomDialogProps) {
           disabled={isCreating}
           data-testid="confirm-create-room"
         >
-          {isCreating ? "Criando..." : "Criar"}
+          {isCreating
+            ? t("createRoomDialog.creatingButton")
+            : t("createRoomDialog.createButton")}
         </Button>
       </DialogActions>
     </Dialog>

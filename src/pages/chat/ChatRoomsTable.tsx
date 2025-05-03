@@ -12,10 +12,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../service/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { fetchChatRooms } from "../../service/endpoints/chat";
+import { useTranslation } from "react-i18next";
 
 function ChatRoomsTable() {
   const { unauthenticated, authLoading } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { data: chatRooms, isLoading } = useQuery({
     queryKey: ["chatRooms"],
@@ -30,10 +32,10 @@ function ChatRoomsTable() {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead sx={{ backgroundColor: "rgba(0,0,0,0.08)" }}>
           <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Nome da sala</TableCell>
-            <TableCell>Membros</TableCell>
-            <TableCell>Criado por</TableCell>
+            <TableCell>{t("chatRoomsTable.headers.id")}</TableCell>
+            <TableCell>{t("chatRoomsTable.headers.name")}</TableCell>
+            <TableCell>{t("chatRoomsTable.headers.members")}</TableCell>
+            <TableCell>{t("chatRoomsTable.headers.createdBy")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -44,7 +46,7 @@ function ChatRoomsTable() {
                 align="center"
                 data-testid="unauthenticated-message"
               >
-                Você precisa estar logado para acessar as salas de chat.
+                {t("chatRoomsTable.messages.unauthenticated")}
               </TableCell>
             </TableRow>
           )}
@@ -62,13 +64,12 @@ function ChatRoomsTable() {
                 align="center"
                 data-testid="no-rooms-message"
               >
-                Nenhuma sala de chat encontrada.
+                {t("chatRoomsTable.messages.noRooms")}
               </TableCell>
             </TableRow>
           )}
           {chatRooms?.map((row) => (
             <TableRow
-              // </TableBody>data-testid={`room-${row.name}`}
               key={row.id}
               data-testid={`room-${row.name}`}
               sx={{

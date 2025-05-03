@@ -3,10 +3,12 @@ import { TextField, Box, Alert } from "@mui/material";
 import CustomDialog from "./Dialog";
 import { useAuth } from "../../service/useAuth";
 import { useAuthDialogStore } from "../../store/useAuthDialogStore";
+import { useTranslation } from "react-i18next";
 
 const SignUpForm = () => {
   const { isSignUpOpen, closeDialogs } = useAuthDialogStore();
   const { signUp } = useAuth();
+  const { t } = useTranslation();
   const [formState, setFormState] = React.useState({
     email: "",
     password: "",
@@ -27,7 +29,7 @@ const SignUpForm = () => {
   async function handleSubmit() {
     try {
       if (!usernameRegex.test(formState.name)) {
-        setErrorMessage("O nome de usuário só pode conter letras e números.");
+        setErrorMessage(t("signUpForm.usernameError"));
         return;
       }
       await signUp.mutateAsync({
@@ -46,8 +48,7 @@ const SignUpForm = () => {
       setIsNameTouched(false);
     } catch (error) {
       const serverError =
-        (error as any)?.response?.data?.message ||
-        "Falha ao registrar. Por favor, tente novamente.";
+        (error as any)?.response?.data?.message || t("signUpForm.serverError");
       setErrorMessage(serverError);
     }
   }
@@ -56,10 +57,11 @@ const SignUpForm = () => {
     <CustomDialog
       open={isSignUpOpen}
       onClose={closeDialogs}
-      title="Registro"
+      title={t("signUpForm.title")}
       onConfirm={handleSubmit}
-      confirmText="Registrar"
+      confirmText={t("signUpForm.confirmText")}
       confirmEnabled={formEnabled}
+      cancelText={t("genericDialog.cancelButton")}
     >
       <Box
         component="form"
@@ -77,7 +79,7 @@ const SignUpForm = () => {
         <TextField
           required
           id="email"
-          label="Email"
+          label={t("signUpForm.emailLabel")}
           variant="outlined"
           autoComplete="email"
           value={formState.email}
@@ -91,7 +93,7 @@ const SignUpForm = () => {
         <TextField
           required
           id="name"
-          label="Nome de usuário"
+          label={t("signUpForm.usernameLabel")}
           variant="outlined"
           autoComplete="name"
           value={formState.name}
@@ -105,14 +107,14 @@ const SignUpForm = () => {
           error={isNameTouched && !usernameRegex.test(formState.name)}
           helperText={
             isNameTouched && !usernameRegex.test(formState.name)
-              ? "Apenas letras e números são permitidos."
+              ? t("signUpForm.usernameHelperText")
               : ""
           }
         />
         <TextField
           required
           id="password"
-          label="Senha"
+          label={t("signUpForm.passwordLabel")}
           type="password"
           variant="outlined"
           autoComplete="current-password"
@@ -127,7 +129,7 @@ const SignUpForm = () => {
         <TextField
           required
           id="confirm-password"
-          label="Confirme a senha"
+          label={t("signUpForm.confirmPasswordLabel")}
           type="password"
           variant="outlined"
           autoComplete="confirm-password"

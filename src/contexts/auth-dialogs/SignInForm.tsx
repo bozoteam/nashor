@@ -3,10 +3,12 @@ import { TextField, Box, Alert } from "@mui/material";
 import CustomDialog from "./Dialog";
 import { useAuth } from "../../service/useAuth";
 import { useAuthDialogStore } from "../../store/useAuthDialogStore";
+import { useTranslation } from "react-i18next";
 
 const SignInForm = () => {
   const { isSignInOpen, closeDialogs } = useAuthDialogStore();
   const { signIn } = useAuth();
+  const { t } = useTranslation();
   const [formState, setFormState] = React.useState({
     email: "",
     password: "",
@@ -27,8 +29,7 @@ const SignInForm = () => {
       setErrorMessage("");
     } catch (error) {
       const serverError =
-        (error as any)?.response?.data?.message ||
-        "Falha ao entrar. Por favor, verifique suas credenciais e tente novamente.";
+        (error as any)?.response?.data?.message || t("signInForm.errorMessage");
       setErrorMessage(serverError);
     }
   }
@@ -37,10 +38,11 @@ const SignInForm = () => {
     <CustomDialog
       open={isSignInOpen}
       onClose={closeDialogs}
-      title="Login"
+      title={t("signInForm.title")}
       onConfirm={handleSubmit}
-      confirmText="Login"
+      confirmText={t("signInForm.confirmText")}
       confirmEnabled={formState.email !== "" && formState.password !== ""}
+      cancelText={t("genericDialog.cancelButton")}
     >
       <Box
         component="form"
@@ -67,7 +69,7 @@ const SignInForm = () => {
         <TextField
           required
           id="email"
-          label="Email"
+          label={t("signInForm.emailLabel")}
           type="text"
           variant="outlined"
           autoComplete="email"
@@ -87,7 +89,7 @@ const SignInForm = () => {
         <TextField
           required
           id="password"
-          label="Senha"
+          label={t("signInForm.passwordLabel")}
           type="password"
           variant="outlined"
           autoComplete="current-password"

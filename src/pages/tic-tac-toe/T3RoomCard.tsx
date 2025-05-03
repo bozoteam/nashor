@@ -5,8 +5,11 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Link } from "react-router-dom";
 import { RoomType } from "./mock";
 import { Box, Button, Chip, Paper, Tooltip, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 function T3RoomCard({ room }: { room: RoomType }) {
+  const { t } = useTranslation();
+
   return (
     <Link to={`/tic-tac-toe/${room.id}`} style={{ textDecoration: "none" }}>
       <Paper
@@ -41,7 +44,7 @@ function T3RoomCard({ room }: { room: RoomType }) {
               {room.name}
             </Typography>
             <Chip
-              label={room.status}
+              label={t(`t3RoomCard.status.${room.status}`)}
               size="small"
               color={room.status === "aguardando" ? "warning" : "success"}
               variant="outlined"
@@ -55,7 +58,7 @@ function T3RoomCard({ room }: { room: RoomType }) {
             />
           </Box>
           <Typography variant="body1">
-            Criado por {room.creator.name}
+            {t("t3RoomCard.createdBy", { name: room.creator.name })}
           </Typography>
         </Box>
         <Box
@@ -85,13 +88,17 @@ function T3RoomCard({ room }: { room: RoomType }) {
               },
             }}
           >
-            <Tooltip title={"Jogadores"} arrow placement="top">
+            <Tooltip
+              title={t("t3RoomCard.playersTooltip")}
+              arrow
+              placement="top"
+            >
               <Box sx={{ display: "flex", gap: "4px", alignItems: "center" }}>
                 <GroupIcon fontSize="small" color="action" />
                 <Typography variant="body1">{room.players.length}</Typography>
               </Box>
             </Tooltip>
-            <Tooltip title="Espectadores" arrow>
+            <Tooltip title={t("t3RoomCard.spectatorsTooltip")} arrow>
               <Box sx={{ display: "flex", gap: "4px", alignItems: "center" }}>
                 <VisibilityIcon fontSize="small" color="action" />
                 <Typography variant="body1">
@@ -101,7 +108,7 @@ function T3RoomCard({ room }: { room: RoomType }) {
             </Tooltip>
           </Box>
           <Box alignItems={"center"} display="flex">
-            <Button variant="contained">Entrar</Button>
+            <Button variant="contained">{t("t3RoomCard.joinButton")}</Button>
           </Box>
         </Box>
       </Paper>

@@ -1,8 +1,11 @@
 import { Box, Typography } from "@mui/material";
 import { stringToColor } from "../../../service/utils";
 import { UserJoinLeaveEvent } from "src/types/chat";
+import { useTranslation } from "react-i18next";
 
 const ChatJoinLeaveEvent = ({ event }: { event: UserJoinLeaveEvent }) => {
+  const { t } = useTranslation();
+
   return (
     <Box>
       <Typography
@@ -21,7 +24,10 @@ const ChatJoinLeaveEvent = ({ event }: { event: UserJoinLeaveEvent }) => {
         <Typography fontWeight={700} color={stringToColor(event.user.id)}>
           {event.user.name}
         </Typography>
-        {event.type === "user_join" ? "entrou" : "saiu"} da sala.
+        {event.type === "user_join"
+          ? t("chatJoinLeaveEvent.userJoin")
+          : t("chatJoinLeaveEvent.userLeave")}{" "}
+        {t("chatJoinLeaveEvent.room")}.
       </Typography>
     </Box>
   );
