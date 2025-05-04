@@ -31,7 +31,11 @@ const LanguageSelector: React.FC = () => {
     >
       <MenuItem value="en">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <img src="https://flagcdn.com/us.svg" alt="English" width="25" />
+          <img
+            src="https://hatscripts.github.io/circle-flags/flags/us.svg"
+            alt="English"
+            width="25"
+          />
           <Typography
             sx={{
               display: { xs: "none", sm: "block" },
@@ -43,7 +47,11 @@ const LanguageSelector: React.FC = () => {
       </MenuItem>
       <MenuItem value="pt">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <img src="https://flagcdn.com/br.svg" alt="Português" width="25" />
+          <img
+            src="https://hatscripts.github.io/circle-flags/flags/br.svg"
+            alt="Português"
+            width="25"
+          />
           <Typography
             sx={{
               display: { xs: "none", sm: "block" },
