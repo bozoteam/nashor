@@ -74,8 +74,19 @@ const SignUpForm = () => {
         }}
         noValidate
         autoComplete="off"
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (formEnabled) {
+            handleSubmit();
+          }
+        }}
+        aria-label={t("signUpForm.title")}
       >
-        {errorMessage && <Alert severity="error">{errorMessage}</Alert>}
+        {errorMessage && (
+          <Alert severity="error" aria-live="assertive" role="alert">
+            {errorMessage}
+          </Alert>
+        )}
         <TextField
           required
           id="email"
@@ -89,6 +100,12 @@ const SignUpForm = () => {
               email: e.target.value,
             })
           }
+          fullWidth
+          aria-describedby="email-helper-text"
+          InputProps={{
+            "aria-label": t("signUpForm.emailLabel"),
+            "aria-required": "true",
+          }}
         />
         <TextField
           required
@@ -110,6 +127,21 @@ const SignUpForm = () => {
               ? t("signUpForm.usernameHelperText")
               : ""
           }
+          fullWidth
+          aria-invalid={isNameTouched && !usernameRegex.test(formState.name)}
+          aria-describedby={
+            isNameTouched && !usernameRegex.test(formState.name)
+              ? "username-error-text"
+              : undefined
+          }
+          InputProps={{
+            "aria-label": t("signUpForm.usernameLabel"),
+            "aria-required": "true",
+          }}
+          FormHelperTextProps={{
+            id: "username-error-text",
+            role: "alert",
+          }}
         />
         <TextField
           required
@@ -117,7 +149,7 @@ const SignUpForm = () => {
           label={t("signUpForm.passwordLabel")}
           type="password"
           variant="outlined"
-          autoComplete="current-password"
+          autoComplete="new-password"
           value={formState.password}
           onChange={(e) =>
             setFormState({
@@ -125,6 +157,11 @@ const SignUpForm = () => {
               password: e.target.value,
             })
           }
+          fullWidth
+          InputProps={{
+            "aria-label": t("signUpForm.passwordLabel"),
+            "aria-required": "true",
+          }}
         />
         <TextField
           required
@@ -132,7 +169,7 @@ const SignUpForm = () => {
           label={t("signUpForm.confirmPasswordLabel")}
           type="password"
           variant="outlined"
-          autoComplete="confirm-password"
+          autoComplete="new-password"
           value={formState.confirmPassword}
           onKeyDown={(e) => {
             if (formEnabled && e.key === "Enter") {
@@ -146,7 +183,35 @@ const SignUpForm = () => {
               confirmPassword: e.target.value,
             })
           }
-          error={formState.password !== formState.confirmPassword}
+          error={
+            formState.password !== formState.confirmPassword &&
+            formState.confirmPassword.length > 0
+          }
+          helperText={
+            formState.password !== formState.confirmPassword &&
+            formState.confirmPassword.length > 0
+              ? t("signUpForm.passwordMismatch")
+              : ""
+          }
+          fullWidth
+          aria-invalid={
+            formState.password !== formState.confirmPassword &&
+            formState.confirmPassword.length > 0
+          }
+          aria-describedby={
+            formState.password !== formState.confirmPassword &&
+            formState.confirmPassword.length > 0
+              ? "confirm-password-error-text"
+              : undefined
+          }
+          InputProps={{
+            "aria-label": t("signUpForm.confirmPasswordLabel"),
+            "aria-required": "true",
+          }}
+          FormHelperTextProps={{
+            id: "confirm-password-error-text",
+            role: "alert",
+          }}
         />
       </Box>
     </CustomDialog>

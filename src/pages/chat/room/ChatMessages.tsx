@@ -31,6 +31,8 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
         flexDirection: "column",
         flexGrow: 1,
       }}
+      role="region"
+      aria-label="Chat messages"
     >
       <Box
         sx={{
@@ -49,6 +51,9 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
           }}
           ref={messagesBoxRef}
           data-testid="messages-box"
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions"
         >
           {messages.map((message) => {
             if ("timestamp" in message) {
@@ -93,6 +98,9 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
             },
           },
         }}
+        InputProps={{
+          "aria-label": "Type your message here",
+        }}
         onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
           // check if shift enter is pressed to add a new line
           if (e.key === "Enter" && e.shiftKey) {
@@ -109,7 +117,25 @@ const ChatMessages: FunctionComponent<ChatMessagesProps> = ({
             target.value = "";
           }
         }}
+        aria-describedby="message-input-hint"
       />
+      <span
+        id="message-input-hint"
+        className="sr-only"
+        style={{
+          position: "absolute",
+          width: "1px",
+          height: "1px",
+          padding: "0",
+          margin: "-1px",
+          overflow: "hidden",
+          clip: "rect(0, 0, 0, 0)",
+          whiteSpace: "nowrap",
+          borderWidth: 0,
+        }}
+      >
+        Press Enter to send your message, or Shift+Enter to add a new line
+      </span>
     </Box>
   );
 };

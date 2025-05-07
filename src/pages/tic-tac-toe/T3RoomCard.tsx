@@ -11,7 +11,14 @@ function T3RoomCard({ room }: { room: RoomType }) {
   const { t } = useTranslation();
 
   return (
-    <Link to={`/tic-tac-toe/${room.id}`} style={{ textDecoration: "none" }}>
+    <Link
+      to={`/tic-tac-toe/${room.id}`}
+      style={{ textDecoration: "none" }}
+      aria-label={t("t3RoomCard.ariaLabel", {
+        name: room.name,
+        status: t(`t3RoomCard.status.${room.status}`),
+      })}
+    >
       <Paper
         sx={{
           padding: "16px 20px",
@@ -22,7 +29,13 @@ function T3RoomCard({ room }: { room: RoomType }) {
             boxShadow: 2,
             backgroundColor: "#F0F3F0",
           },
+          ":focus-visible": {
+            outline: "2px solid #3BA57C",
+            outlineOffset: "2px",
+          },
         }}
+        tabIndex={0}
+        role="article"
       >
         <Box>
           <Box
@@ -50,9 +63,9 @@ function T3RoomCard({ room }: { room: RoomType }) {
               variant="outlined"
               icon={
                 room.status === "aguardando" ? (
-                  <HourglassBottomIcon />
+                  <HourglassBottomIcon aria-hidden="true" />
                 ) : (
-                  <SportsEsportsIcon />
+                  <SportsEsportsIcon aria-hidden="true" />
                 )
               }
             />
@@ -93,14 +106,28 @@ function T3RoomCard({ room }: { room: RoomType }) {
               arrow
               placement="top"
             >
-              <Box sx={{ display: "flex", gap: "4px", alignItems: "center" }}>
-                <GroupIcon fontSize="small" color="action" />
+              <Box
+                sx={{ display: "flex", gap: "4px", alignItems: "center" }}
+                aria-label={t("t3RoomCard.playersCount", {
+                  count: room.players.length,
+                })}
+              >
+                <GroupIcon fontSize="small" color="action" aria-hidden="true" />
                 <Typography variant="body1">{room.players.length}</Typography>
               </Box>
             </Tooltip>
             <Tooltip title={t("t3RoomCard.spectatorsTooltip")} arrow>
-              <Box sx={{ display: "flex", gap: "4px", alignItems: "center" }}>
-                <VisibilityIcon fontSize="small" color="action" />
+              <Box
+                sx={{ display: "flex", gap: "4px", alignItems: "center" }}
+                aria-label={t("t3RoomCard.spectatorsCount", {
+                  count: room.spectators.length,
+                })}
+              >
+                <VisibilityIcon
+                  fontSize="small"
+                  color="action"
+                  aria-hidden="true"
+                />
                 <Typography variant="body1">
                   {room.spectators.length}
                 </Typography>
@@ -108,7 +135,14 @@ function T3RoomCard({ room }: { room: RoomType }) {
             </Tooltip>
           </Box>
           <Box alignItems={"center"} display="flex">
-            <Button variant="contained">{t("t3RoomCard.joinButton")}</Button>
+            <Button
+              variant="contained"
+              aria-label={t("t3RoomCard.joinButtonAriaLabel", {
+                name: room.name,
+              })}
+            >
+              {t("t3RoomCard.joinButton")}
+            </Button>
           </Box>
         </Box>
       </Paper>

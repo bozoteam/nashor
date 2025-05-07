@@ -24,7 +24,7 @@ test.describe("Login test", () => {
     await page.getByTestId("confirm-button").click();
 
     await expect(page.getByTestId("error-message")).toContainText(
-      "Falha ao entrar. Por favor, verifique suas credenciais e tente novamente."
+      "Email ou senha inválidos. Por favor, tente novamente."
     );
   });
 

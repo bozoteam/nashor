@@ -39,7 +39,7 @@ test.describe("Multi-user chat room test", () => {
   test("User cannot access chat room without logging in", async ({ page }) => {
     await page.goto("/chat");
     await expect(page.getByTestId("unauthenticated-message")).toContainText(
-      "Você precisa estar logado para acessar as salas de chat."
+      "Você precisa estar logado para ver as salas de chat."
     );
   });
 
@@ -52,10 +52,10 @@ test.describe("Multi-user chat room test", () => {
       await page2.goto("/chat");
 
       await expect(page1.getByTestId("no-rooms-message")).toContainText(
-        "Nenhuma sala de chat encontrada."
+        "Nenhuma sala de chat disponível."
       );
       await expect(page2.getByTestId("no-rooms-message")).toContainText(
-        "Nenhuma sala de chat encontrada."
+        "Nenhuma sala de chat disponível."
       );
     });
 

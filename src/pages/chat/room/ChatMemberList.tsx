@@ -8,15 +8,15 @@ interface ChatMemberListProps {
 }
 
 const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
-  console.log(users);
   return (
     <Box
       sx={{
         padding: "16px 12px",
         display: "flex",
         flexDirection: "column",
-        // gap: "8px",
       }}
+      role="region"
+      aria-label="Chat members list"
     >
       <Typography
         variant={"h6"}
@@ -25,6 +25,7 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
           marginLeft: "8px",
           fontSize: "1rem",
         }}
+        id="online-users-count"
       >
         {users ? users.length : 0} Online
       </Typography>
@@ -40,6 +41,8 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
           flexDirection: "column",
           gap: "8px",
         }}
+        aria-labelledby="online-users-count"
+        role="list"
       >
         {users &&
           users.map((user) => (
@@ -55,6 +58,7 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
                   backgroundColor: "rgba(0,0,0,0.05)",
                 },
               }}
+              role="listitem"
             >
               <Avatar
                 sx={{
@@ -62,7 +66,8 @@ const ChatMemberList: FunctionComponent<ChatMemberListProps> = ({ users }) => {
                   height: 32,
                   background: stringToColor(user.id),
                 }}
-                alt={user.name}
+                alt={`Avatar for ${user.name}`}
+                aria-hidden="true"
               >
                 {user.name[0].toUpperCase()}
               </Avatar>
