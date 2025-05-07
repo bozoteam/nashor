@@ -60,9 +60,14 @@ const SignInForm = () => {
           handleSubmit();
         }}
         data-testid="login-form"
+        aria-label={t("signInForm.title")}
       >
         {errorMessage && (
-          <Alert severity="error" data-testid="error-message">
+          <Alert
+            severity="error"
+            data-testid="error-message"
+            aria-live="assertive"
+          >
             {errorMessage}
           </Alert>
         )}
@@ -83,7 +88,13 @@ const SignInForm = () => {
           slotProps={{
             htmlInput: {
               "data-testid": "email-field",
+              "aria-required": "true",
             },
+          }}
+          fullWidth
+          aria-describedby="email-helper-text"
+          InputProps={{
+            "aria-label": t("signInForm.emailLabel"),
           }}
         />
         <TextField
@@ -103,7 +114,23 @@ const SignInForm = () => {
           slotProps={{
             htmlInput: {
               "data-testid": "password-field",
+              "aria-required": "true",
             },
+          }}
+          fullWidth
+          aria-describedby="password-helper-text"
+          InputProps={{
+            "aria-label": t("signInForm.passwordLabel"),
+          }}
+          onKeyDown={(e) => {
+            if (
+              e.key === "Enter" &&
+              formState.email !== "" &&
+              formState.password !== ""
+            ) {
+              e.preventDefault();
+              handleSubmit();
+            }
           }}
         />
         <button type="submit" style={{ display: "none" }} />

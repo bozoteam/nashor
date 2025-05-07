@@ -28,6 +28,7 @@ const LanguageSelector: React.FC = () => {
         },
       }}
       inputProps={{ "aria-label": "Language Selector" }}
+      aria-label="Select language"
     >
       <MenuItem value="en">
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
@@ -35,6 +36,7 @@ const LanguageSelector: React.FC = () => {
             src="https://hatscripts.github.io/circle-flags/flags/us.svg"
             alt="English"
             width="25"
+            height="25"
           />
           <Typography
             sx={{
@@ -51,6 +53,7 @@ const LanguageSelector: React.FC = () => {
             src="https://hatscripts.github.io/circle-flags/flags/br.svg"
             alt="Português"
             width="25"
+            height="25"
           />
           <Typography
             sx={{

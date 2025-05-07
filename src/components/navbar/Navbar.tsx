@@ -6,7 +6,7 @@ import LanguageSelector from "./LanguageSelector";
 
 const Navbar: React.FC = () => {
   return (
-    <AppBar position="static">
+    <AppBar position="static" component="nav" aria-label="Main navigation">
       <Toolbar
         disableGutters
         sx={{
@@ -21,6 +21,7 @@ const Navbar: React.FC = () => {
             to="/"
             style={{ fontWeight: "500", textDecoration: "none" }}
             id="nav-logo"
+            aria-label="NerdBoard home"
           >
             NerdBoard
           </Link>

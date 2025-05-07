@@ -20,6 +20,8 @@ const T3Match = () => {
           fontSize: "24px",
           textAlign: "center",
         }}
+        role="heading"
+        aria-level={1}
       >
         Mystic Forest (Example title)
       </Typography>
@@ -33,6 +35,8 @@ const T3Match = () => {
           marginBottom: "16px",
           textAlign: "center",
         }}
+        role="status"
+        aria-live="polite"
       >
         Vez de jogar: <strong>Jogador 1</strong> (X)
       </Typography>

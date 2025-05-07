@@ -27,9 +27,15 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
   confirmEnabled = false,
 }) => {
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{title}</DialogTitle>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="dialog-title"
+      aria-describedby="dialog-description"
+    >
+      <DialogTitle id="dialog-title">{title}</DialogTitle>
       <DialogContent
+        id="dialog-description"
         sx={{
           overflowY: "visible",
         }}
@@ -41,13 +47,16 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
           padding: "0 24px 16px 24px",
         }}
       >
-        <Button onClick={onClose}>{cancelText}</Button>
+        <Button onClick={onClose} aria-label={cancelText}>
+          {cancelText}
+        </Button>
         {onConfirm && (
           <Button
             onClick={onConfirm}
             disabled={!confirmEnabled}
             variant="contained"
             data-testid="confirm-button"
+            aria-label={confirmText}
           >
             {confirmText}
           </Button>

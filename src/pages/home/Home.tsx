@@ -32,8 +32,15 @@ function FeatureBox({
           backgroundColor: "#F0F3F0",
           boxShadow: 2,
         },
+        ":focus-visible": {
+          outline: "2px solid #3BA57C",
+          outlineOffset: "2px",
+        },
       }}
       elevation={1}
+      role="article"
+      tabIndex={0}
+      aria-label={title}
       {...rest}
     >
       <Box
@@ -42,7 +49,7 @@ function FeatureBox({
           justifyContent: "center",
         }}
       >
-        <img src={image} alt={title} width="150px" height="auto" />
+        <img src={image} alt={title} width="150" height="150" />
       </Box>
       <Typography
         variant="h3"
@@ -67,7 +74,9 @@ function FeatureBox({
       >
         {subtitle}
       </Typography>
-      <Button variant="contained">{buttonText}</Button>
+      <Button variant="contained" aria-label={`${buttonText} ${title}`}>
+        {buttonText}
+      </Button>
     </Paper>
   );
 }
@@ -87,6 +96,8 @@ const Home: React.FC = () => {
           gridTemplateColumns: "repeat(auto-fill, minmax(195px, 1fr))",
           gap: 2,
         }}
+        role="region"
+        aria-label={t("home.ariaLabel.featuresSection")}
       >
         <FeatureBox
           data-testid="chat-box"
