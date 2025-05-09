@@ -8,6 +8,7 @@ import { useAuth } from "../../../service/useAuth";
 import { useChatStore } from "./store/useChatStore";
 import { useMutation } from "@tanstack/react-query";
 import { sendMessage } from "../../../service/endpoints/chat";
+import { queryClient } from "../../../service/queryClient";
 
 export type ChatUser = {
   userId: string;
@@ -61,7 +62,10 @@ function ChatRoom() {
         <div className="m-2 w-full">
           <IconButton
             data-testid="leave-room-button"
-            onClick={() => navigate("/chat")}
+            onClick={() => {
+              navigate("/chat");
+              queryClient.invalidateQueries({ queryKey: ["chatRooms"] });
+            }}
           >
             <ArrowBack />
           </IconButton>

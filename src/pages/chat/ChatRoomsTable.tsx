@@ -19,13 +19,18 @@ function ChatRoomsTable() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const { data: chatRooms, isLoading } = useQuery({
+  const {
+    data: chatRooms,
+    isLoading,
+    isStale,
+  } = useQuery({
     queryKey: ["chatRooms"],
     queryFn: fetchChatRooms,
-    refetchInterval: 2000, // Refetch every 2 seconds
+    refetchInterval: 2000,
+    staleTime: 3000,
   });
 
-  const loading = authLoading || isLoading;
+  const loading = authLoading || isLoading || isStale;
 
   return (
     <TableContainer component={Paper}>
@@ -68,35 +73,36 @@ function ChatRoomsTable() {
               </TableCell>
             </TableRow>
           )}
-          {chatRooms?.map((row) => (
-            <TableRow
-              key={row.id}
-              data-testid={`room-${row.name}`}
-              sx={{
-                "&:last-child td, &:last-child th": { border: 0 },
-                cursor: "pointer",
-                "&:hover": {
-                  backgroundColor: "rgba(0,0,0,0.03)",
-                },
-              }}
-              onClick={() => {
-                navigate("/chat/" + row.id);
-              }}
-            >
-              <TableCell component="th" scope="row">
-                {row.id}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {Object.keys(row.users).length}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.creator_id}
-              </TableCell>
-            </TableRow>
-          ))}
+          {!isStale &&
+            chatRooms?.map((row) => (
+              <TableRow
+                key={row.id}
+                data-testid={`room-${row.name}`}
+                sx={{
+                  "&:last-child td, &:last-child th": { border: 0 },
+                  cursor: "pointer",
+                  "&:hover": {
+                    backgroundColor: "rgba(0,0,0,0.03)",
+                  },
+                }}
+                onClick={() => {
+                  navigate("/chat/" + row.id);
+                }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.id}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {Object.keys(row.users).length}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.creator_id}
+                </TableCell>
+              </TableRow>
+            ))}
         </TableBody>
       </Table>
     </TableContainer>
