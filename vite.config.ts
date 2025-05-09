@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@proto": path.resolve(__dirname, "proto/gen"),
+      src: path.resolve(__dirname, "src"),
     },
   },
 });
