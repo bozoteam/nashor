@@ -88,7 +88,8 @@
     "emailLabel": "Email",
     "passwordLabel": "Password",
     "confirmText": "Sign In",
-    "errorMessage": "Invalid email or password. Please try again."
+    "errorMessage": "Invalid email or password. Please try again.",
+    "registerText": "Don't have an account? Sign Up"
   },
   "signUpForm": {
     "title": "Sign Up",

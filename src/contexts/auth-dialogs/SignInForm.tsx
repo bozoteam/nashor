@@ -6,7 +6,7 @@ import { useAuthDialogStore } from "../../store/useAuthDialogStore";
 import { useTranslation } from "react-i18next";
 
 const SignInForm = () => {
-  const { isSignInOpen, closeDialogs } = useAuthDialogStore();
+  const { isSignInOpen, closeDialogs, openSignUp } = useAuthDialogStore();
   const { signIn } = useAuth();
   const { t } = useTranslation();
   const [formState, setFormState] = React.useState({
@@ -134,6 +134,29 @@ const SignInForm = () => {
           }}
         />
         <button type="submit" style={{ display: "none" }} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => {
+              openSignUp();
+            }}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#1976d2",
+              cursor: "pointer",
+            }}
+            data-testid="register-button"
+          >
+            {t("signInForm.registerText")}
+          </button>
+        </Box>
       </Box>
     </CustomDialog>
   );

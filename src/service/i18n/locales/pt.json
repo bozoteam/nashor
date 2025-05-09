@@ -88,7 +88,19 @@
     "emailLabel": "Email",
     "passwordLabel": "Senha",
     "confirmText": "Entrar",
-    "errorMessage": "Email ou senha inválidos. Por favor, tente novamente."
+    "errorMessage": "Email ou senha inválidos. Por favor, tente novamente.",
+    "registerText": "Não tem uma conta? Cadastre-se"
+  },
+  "signUpForm": {
+    "title": "Cadastrar",
+    "emailLabel": "Email",
+    "usernameLabel": "Nome de Usuário",
+    "usernameHelperText": "O nome de usuário deve conter apenas letras e números.",
+    "passwordLabel": "Senha",
+    "confirmPasswordLabel": "Confirmar Senha",
+    "confirmText": "Cadastrar",
+    "usernameError": "Nome de usuário inválido. Use apenas letras e números.",
+    "serverError": "Ocorreu um erro ao cadastrar. Por favor, tente novamente."
   },
   "genericDialog": {
     "cancelButton": "Cancelar",
