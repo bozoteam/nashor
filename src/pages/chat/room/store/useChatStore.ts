@@ -71,7 +71,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
           get().addMessage(data);
         }
       } catch (err) {
-        console.warn("Non-JSON message:", event.data);
+        console.warn("Non-JSON message:", event.data, err);
       }
     };
 

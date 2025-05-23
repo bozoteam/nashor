@@ -64,6 +64,8 @@ export const useAuth = () => {
   const signOut = () => {
     logoutUser().then(() => {
       localStorage.removeItem("access_token");
+      document.cookie =
+        "access_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     });
     queryClient.setQueryData(["authUser"], null);
   };

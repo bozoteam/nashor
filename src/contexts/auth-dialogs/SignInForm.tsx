@@ -29,6 +29,7 @@ const SignInForm = () => {
       setErrorMessage("");
     } catch (error) {
       const serverError =
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (error as any)?.response?.data?.message || t("signInForm.errorMessage");
       setErrorMessage(serverError);
     }
