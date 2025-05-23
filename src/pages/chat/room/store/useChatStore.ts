@@ -35,15 +35,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   connect: (roomId: string) => {
     set({ messages: [], users: [], isConnected: false, numberOfMessages: 0 });
-    const token = localStorage.getItem("access_token") || "";
-    if (!token) {
-      console.error("No token found in localStorage");
-      return;
-    }
     const wsProtocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const wsUrl = `${wsProtocol}://${baseUrl}/api/v1/chat/rooms/${roomId}/ws?token=${encodeURIComponent(
-      token
-    )}`;
+    const wsUrl = `${wsProtocol}://${baseUrl}/api/v1/chat/rooms/${roomId}/ws`;
     let didConnect = false;
 
     const socket = new WebSocket(wsUrl);
