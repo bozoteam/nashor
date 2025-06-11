@@ -62,6 +62,28 @@
         nashorDockerImage =
           let
             nginxPort = "8081";
+            versionJson = pkgs.writeTextFile {
+              name = "version.json";
+              text =
+                let
+                  unixTime = builtins.substring 0 10 (
+                    builtins.readFile (
+                      pkgs.runCommand "build-time" { } ''
+                        date +%s > $out
+                      ''
+                    )
+                  );
+                  formattedDate = builtins.readFile (
+                    pkgs.runCommand "formatted-date" { } ''
+                      date -u -d "@${unixTime}" +"%Y-%m-%dT%H:%M:%SZ" > $out
+                    ''
+                  );
+                in
+                builtins.toJSON {
+                  unix = unixTime;
+                  date = builtins.substring 0 20 formattedDate;
+                };
+            };
             nginxConf = pkgs.writeText "nginx.conf" ''
               user nobody nobody;
               daemon off;
@@ -82,9 +104,10 @@
                   location / {
                      try_files $uri /index.html =404;
                   }
-                  #location = /index.html {
-                    #root ${nashorApp}/dist;
-                  #}
+                  location /nashor/version {
+                     default_type application/json;
+                     alias ${versionJson};
+                  }
                 }
               }
             '';
