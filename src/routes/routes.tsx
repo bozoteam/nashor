@@ -9,6 +9,7 @@ import SignUpForm from "../contexts/auth-dialogs/SignUpForm";
 import ChatHub from "../pages/chat/ChatHub";
 import T3Hub from "../pages/tic-tac-toe/T3Hub";
 import T3Match from "../pages/tic-tac-toe/match/T3Match";
+import Version from "../pages/version/Version";
 import ProtectedRoute from "./ProtectedRoute";
 
 const About = () => <h1>About</h1>;
@@ -33,6 +34,7 @@ export default function AppRoutes() {
         <Route path="/tic-tac-toe/:roomId" element={<T3Match />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/about" element={<About />} />
+        <Route path="/version" element={<Version />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
       <SignInForm />
