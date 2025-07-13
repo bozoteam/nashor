@@ -57,9 +57,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         const data = JSON.parse(event.data);
         console.debug("Parsed data:", data);
         set({ numberOfMessages: get().numberOfMessages + 1 });
+        console.log(data);
 
-        if (data.users) {
-          get().setUsers(data.users);
+        if (data.team_mapping) {
+          get().setUsers(data.team_mapping.chat);
         } else if (data.content && data.user) {
           get().addMessage(data);
         }

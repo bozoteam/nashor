@@ -96,7 +96,7 @@ function ChatRoomsTable() {
                   {row.name}
                 </TableCell>
                 <TableCell component="th" scope="row">
-                  {Object.keys(row.users).length}
+                  {row.team_user_map.chat.users.length}
                 </TableCell>
                 <TableCell component="th" scope="row">
                   {row.creator_id}
