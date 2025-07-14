@@ -1,4 +1,4 @@
-import { Room } from "@proto/chat/chat";
+import { Room } from "@proto/common/common";
 import { User } from "./user";
 
 export type ChatRoom = Room;
